@@ -1,0 +1,6 @@
+2019/10/03 09:29:38 [emerg] 8#8: unknown directive "echo" in /etc/nginx/sites-available/default.conf:17
+2019/10/03 11:37:29 [emerg] 8#8: host not found in upstream "php-fpm:9000" in /etc/nginx/conf.d/upstream.conf:1
+2019/10/03 12:17:04 [emerg] 8#8: host not found in upstream "php-fpm:9000" in /etc/nginx/conf.d/upstream.conf:1
+2019/10/03 13:42:00 [emerg] 8#8: host not found in upstream "php-fpm:9000" in /etc/nginx/conf.d/upstream.conf:1
+2019/10/03 18:28:58 [emerg] 8#8: host not found in upstream "php-fpm:9000" in /etc/nginx/conf.d/upstream.conf:1
+2019/10/03 18:29:34 [emerg] 8#8: host not found in upstream "php-fpm:9000" in /etc/nginx/conf.d/upstream.conf:1

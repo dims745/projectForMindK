@@ -1,7 +1,14 @@
 <?php
 
-Route::get('/', function () {
-    return view('welcome');
+use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\LoginController;
+
+Route::get('/', function (Request $req) {
+    if($req->input('token'))
+        $auth = LoginController::verifyToken($req->input('token'));
+    else
+        $auth = false;
+    return response()->json($auth);
 });
 
 Route::get('/login', function () {
@@ -18,9 +25,7 @@ Route::get('/signIn', function() {
     ]);
 });
 
-Route::post('/signIn', 'Auth\LoginController@processingUserData');
+Route::post('/signIn', 'Auth\RegisterController@processingUserData');
 
-Route::get('/verify/{key}', 'Auth\LoginController@verifyEmail');
-//Auth::routes();
+Route::get('/verify/{key}', 'Auth\RegisterController@verifyEmail');
 
-//Route::get('/home', 'HomeController@index')->name('home');

@@ -24,7 +24,7 @@ class LoginController extends Controller
             ->first();
         if($user) {
             $success = true;
-            $token = $this->makeToken($user->email, $user->id);
+            $token = LoginController::makeToken($user->email, $user->id);
         }
         else {
             $success = false;

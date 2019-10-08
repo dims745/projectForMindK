@@ -29,6 +29,8 @@ class Menus extends Component {
         return (
             <div class='menus'>
                 <NavigateLinks />
+                <Search />
+                <UserInfo />
             </div>
         );
     }
@@ -39,7 +41,7 @@ class NavigateLinks extends Component {
         return (
             <div class='navigateLinks'>
                 {
-                    ['Main Page', 'LogIn', 'SignIn', 'korsina']
+                    ['Main Page', 'LogIn', 'SignIn', 'korsina', 'something']
                         .map((item)=> <ButtonLink name={item} />)
                 }
             </div>
@@ -52,6 +54,29 @@ class ButtonLink extends Component {
         return (
             <div class='buttonLink'>
                 <button>{this.props.name}</button>
+            </div>
+        );
+    }
+}
+
+class Search extends Component {
+    render() {
+        return (
+            <div class='search'>
+                <input/>
+                <br/>
+                <input type='checkbox' />
+                <label>Something that...</label>
+            </div>
+        );
+    }
+}
+
+class UserInfo extends Component {
+    render() {
+        return (
+            <div class='userContainer'>
+                <h3>text</h3>
             </div>
         );
     }

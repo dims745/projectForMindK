@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './styles/Header.css';
+import { Link } from "react-router-dom";
+import API from './api.js';
 
 class Header extends Component {
-
     render() {
         return (
             <div>
@@ -30,7 +31,7 @@ class Menus extends Component {
             <div class='menus'>
                 <NavigateLinks />
                 <Search />
-                <UserInfo />
+                <User />
             </div>
         );
     }
@@ -53,13 +54,16 @@ class ButtonLink extends Component {
     render() {
         return (
             <div class='buttonLink'>
+                <Link to={this.props.name}>
                 <button>{this.props.name}</button>
+                </Link>
             </div>
         );
     }
 }
 
 class Search extends Component {
+
     render() {
         return (
             <div class='search'>
@@ -72,11 +76,77 @@ class Search extends Component {
     }
 }
 
-class UserInfo extends Component {
+class User extends Component {
     render() {
         return (
             <div class='userContainer'>
-                <h3>text</h3>
+                <Bucket />
+                <UserInfo />
+                <Logout />
+            </div>
+        );
+    }
+}
+
+class Bucket extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: false
+        };
+    }
+    componentDidMount() {
+        let count = localStorage.getItem('count') ? localStorage.getItem('count') : false;
+        this.setState({
+                value: count
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.value ? this.state.value + '  ' : false}
+                <Link to='/bucket'>
+                    <img src='/src/res/bucket.ico'/>
+                </Link>
+            </div>
+        );
+    }
+}
+
+class UserInfo extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: false
+        };
+    }
+    componentDidMount() {
+        let promise = fetch('http://' + API.host + ':' + API.port + '/login')
+            .then(res => res.json())
+                .then(
+                    (result) => {
+                    this.setState({
+                        name: result.message
+                    });
+                });
+    }
+    render() {
+        return (
+            <div>
+                {this.state.name ? this.state.name : <Link to='login'><button>Login</button></Link>}
+            </div>
+        );
+    }
+}
+
+class Logout extends Component {
+    render() {
+        return (
+            <div>
+                <button>
+                    Logout
+                </button>
             </div>
         );
     }

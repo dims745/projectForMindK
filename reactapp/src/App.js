@@ -6,10 +6,10 @@ import Header from './Header.js';
 import Main from './Main.js';
 
 class App extends Component {
-
+    c
   render() {
     return (
-        <div>
+        <div class='general'>
             <Header />
             <Main />
             <Footer />

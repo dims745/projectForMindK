@@ -38,6 +38,8 @@ button{
 }
 .userContainer {
     text-align: center;
+    display: flex;
+    justify-content: space-between;
     width: 25%;
     height: 100%;
 }

@@ -122,12 +122,22 @@ class UserInfo extends Component {
         };
     }
     componentDidMount() {
-        let promise = fetch('http://' + API.host + ':' + API.port + '/login')
+        let user = {
+            'token' : localStorage.getItem('token')
+        }
+        if(!user.token)return false;
+        fetch('http://' + API.host + ':' + API.port + '/verify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
             .then(res => res.json())
                 .then(
                     (result) => {
                     this.setState({
-                        name: result.message
+                        name: result.name
                     });
                 });
     }

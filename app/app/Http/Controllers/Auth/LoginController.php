@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\User;
-use function MongoDB\BSON\toJSON;
 
 class LoginController extends Controller
 {
@@ -24,7 +23,7 @@ class LoginController extends Controller
             ->first();
         if($user) {
             $success = true;
-            $token = LoginController::makeToken($user->email, $user->id);
+            $token = LoginController::makeToken($user->email, $user->id, $user->name);
         }
         else {
             $success = false;
@@ -36,8 +35,8 @@ class LoginController extends Controller
         ]);
     }
 
-    public static function verifyToken ($token) {
-
+    public function verifyToken (Request $req) {
+        $token = $req->input('token');
         $splitToken = explode('.', $token);
         if(!(json_decode(base64_decode($splitToken[0])) && json_decode(base64_decode($splitToken[1])))){
             return ["success" => 'false'];
@@ -46,15 +45,16 @@ class LoginController extends Controller
         return [
             "success" => !!(LoginController::base64url_encode($checking) == $splitToken[2]),
             "id" => json_decode(base64_decode($splitToken[1]))->id,
-            "email" => json_decode(base64_decode($splitToken[1]))->email
+            "email" => json_decode(base64_decode($splitToken[1]))->email,
+            "name" => json_decode(base64_decode($splitToken[1]))->name
         ];
     }
 
-    public static function makeToken($email, $id) {
+    public static function makeToken($email, $id, $name) {
         $headers = ['alg'=>'HS256','typ'=>'JWT'];
         $headers_encoded = LoginController::base64url_encode(json_encode($headers));
 
-        $payload = ['email'=>$email, 'id'=>$id];
+        $payload = ['email'=>$email, 'id'=>$id, 'name'=>$name];
         $payload_encoded = LoginController::base64url_encode(json_encode($payload));
 
         $signature_encoded = LoginController::base64url_encode(

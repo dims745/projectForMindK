@@ -26,7 +26,7 @@ class RegisterController extends Controller
         $user = $this->create($req->all());
         return response()->json([
             'success' => true,
-            'token' => LoginController::makeToken($user->email, $user->id)
+            'token' => LoginController::makeToken($user->email, $user->id, $user->name)
         ]);
     }
 

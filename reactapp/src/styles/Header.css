@@ -39,7 +39,7 @@ button{
 .userContainer {
     text-align: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 25%;
     height: 100%;
 }

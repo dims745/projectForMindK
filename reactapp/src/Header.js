@@ -42,7 +42,7 @@ class NavigateLinks extends Component {
         return (
             <div class='navigateLinks'>
                 {
-                    ['Main Page', 'LogIn', 'SignIn', 'korsina', 'something']
+                    ['Main Page', 'login', 'signIn', 'bucket', 'something']
                         .map((item)=> <ButtonLink name={item} />)
                 }
             </div>
@@ -82,7 +82,6 @@ class User extends Component {
             <div class='userContainer'>
                 <Bucket />
                 <UserInfo />
-                <Logout />
             </div>
         );
     }
@@ -105,7 +104,7 @@ class Bucket extends Component {
     render() {
         return (
             <div>
-                {this.state.value ? this.state.value + '  ' : false}
+                {this.state.value ? this.state.value + ' ->  ' : false}
                 <Link to='/bucket'>
                     <img src='/src/res/bucket.ico'/>
                 </Link>
@@ -142,24 +141,21 @@ class UserInfo extends Component {
                 });
     }
     render() {
+        if(this.state.name){
         return (
             <div>
-                {this.state.name ? this.state.name : <Link to='login'><button>Login</button></Link>}
+                {this.state.name}
+                <button onClick={localStorage.removeItem('token')}>Logout</button>
             </div>
-        );
+        );}
+        else {
+        return (
+            <div>
+                <Link to='login'><button id='isLogin'>Login</button></Link>
+            </div>
+        );}
     }
 }
 
-class Logout extends Component {
-    render() {
-        return (
-            <div>
-                <button>
-                    Logout
-                </button>
-            </div>
-        );
-    }
-}
 
 export default Header;

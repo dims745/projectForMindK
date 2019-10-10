@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
 import API from "../api";
-import {Link} from "react-router-dom";
+import {Link , useHistory} from "react-router-dom";
 
-class LoginPage extends Component {
+class SigninPage extends Component {
 
     render() {
         return (
             <div class='LoginPage'>
-                <LoginForm />
+                <SigninForm />
             </div>
         );
     }
 }
 
-class LoginForm extends Component {
+class SigninForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             remember: false,
+            name : '',
             email: '',
             pass: '',
             invalidData: ''
@@ -39,10 +40,11 @@ class LoginForm extends Component {
     onSubmit(event){
         event.preventDefault();
         let user = {
+            name : this.state.name,
             email : this.state.email,
-            pass : this.state.pass
+            password : this.state.password
         }
-        fetch('http://' + API.host + ':' + API.port + '/login', {
+        fetch('http://' + API.host + ':' + API.port + '/signIn', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,13 +57,14 @@ class LoginForm extends Component {
                     if(result.success) {
                         if(this.state.remember) localStorage.setItem('token', result.token);
                         else sessionStorage.setItem('token', result.token);
-                        document.location=('/dashboard');
+
                     }
                     else this.setState({
-                        invalidData : 'incorrect login or password'
+                        invalidData : 'incorrect input data'
                     });
                 })
-            .catch(()=>{this.setState({
+            .catch((err)=>{console.log(err);
+                this.setState({
                 invalidData : 'Error of connection to server'
             });})
     }
@@ -76,8 +79,16 @@ class LoginForm extends Component {
                             <tr>
                                 <td>
                                     <h3>
-                                        Log In
+                                        Sign In
                                     </h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Name
+                                </td>
+                                <td>
+                                    <input name='name' value={this.state.name} onChange={this.handleInputChange}/>
                                 </td>
                             </tr>
                             <tr>
@@ -93,13 +104,13 @@ class LoginForm extends Component {
                                     <label>password </label>
                                 </td>
                                 <td>
-                                    <input name='pass' type='password' value={this.state.pass} onChange={this.handleInputChange}/>
+                                    <input name='password' type='password' value={this.state.password} onChange={this.handleInputChange}/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
-                                    <label>   Remember?</label>
+                                    <label>   Remember to LogIn?</label>
                                 </td>
 
                             </tr>
@@ -113,11 +124,11 @@ class LoginForm extends Component {
                             </tr>
                             <tr>
                                 <td>
-                                    No have account?
+                                    Already have account?
                                 </td>
                                 <td>
-                                    <Link to='/signin'>
-                                        SignIn
+                                    <Link to='/login'>
+                                        LogIn
                                     </Link>
                                 </td>
                             </tr>
@@ -131,4 +142,4 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginPage;
+export default SigninPage;

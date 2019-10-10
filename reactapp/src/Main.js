@@ -5,6 +5,7 @@ import StartPage from "./Pages/StartPage";
 import CategoryView from "./Pages/CategoryView";
 import Bucket from "./Pages/Bucket";
 import LoginPage from "./Pages/LoginPage";
+import SigninPage from "./Pages/SigninPage";
 
 class Main extends Component {
     render() {
@@ -13,6 +14,9 @@ class Main extends Component {
                 <Switch>
                     <Route path='/login'>
                         <LoginPage />
+                    </Route>
+                    <Route path='/signin'>
+                        <SigninPage />
                     </Route>
                     <Route path='/bucket'>
                         <Bucket />

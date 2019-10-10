@@ -119,12 +119,15 @@ class UserInfo extends Component {
         this.state = {
             name: false
         };
+        this.onClick = this.onClick.bind(this);
     }
     componentDidMount() {
         let user = {
             'token' : localStorage.getItem('token')
         }
-        if(!user.token)return false;
+        if(!user.token)
+            user.token = sessionStorage.getItem('token');
+        if(!user.token) return false;
         fetch('http://' + API.host + ':' + API.port + '/verify', {
             method: 'POST',
             headers: {
@@ -138,14 +141,22 @@ class UserInfo extends Component {
                     this.setState({
                         name: result.name
                     });
-                });
+                })
+            .catch((err)=>{this.setState({
+                name: 'error of connection'
+            });})
+    }
+    onClick () {
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        this.setState({name :false});
     }
     render() {
         if(this.state.name){
         return (
             <div>
                 {this.state.name}
-                <button onClick={localStorage.removeItem('token')}>Logout</button>
+                <button onClick={this.onClick}>Logout</button>
             </div>
         );}
         else {

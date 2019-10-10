@@ -16,7 +16,7 @@ class LoginController extends Controller
 
     public function checkLogin(Request $req)
     {
-        $name = $req->input('login');
+        $name = $req->input('email');
         $pass = $req->input('pass');
         $user = User::where('email', $name)
             ->where('password', $pass)

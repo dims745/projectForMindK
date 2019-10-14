@@ -32,8 +32,10 @@ Route::post('/login', 'Auth\LoginController@checkLogin');
 Route::get('/signIn', function() {
     return response()->json([
         'message' => 'nothing'
-    ])->header('Access-Control-Allow-Origin','*');
+    ]);
 });
+
+Route::post('/categories', 'productController@getCategories');
 
 Route::post('/signIn', 'Auth\RegisterController@processingUserData');
 

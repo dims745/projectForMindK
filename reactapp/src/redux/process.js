@@ -20,7 +20,7 @@ export default function process (state = initState, action) {
     switch (action.type) {
         case "ADD_AUTH": return authCreate(state, action);
         case "ADD_USER": if(action.success)return addAuth(state, action); else return state;
-
+        case "ADD_CATEGORY":
         case "DEL_AUTH": return { ...state, user: {}, logined: false};
         default: return state;
     }

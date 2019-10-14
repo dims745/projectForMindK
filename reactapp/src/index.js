@@ -5,7 +5,7 @@ import './index.css';
 import {BrowserRouter} from "react-router-dom";
 import { Provider } from 'react-redux';
 import store from './redux';
-import thunk from "redux-thunk";
+//import thunk from "redux-thunk";
 import { toAPI } from "./redux/actions";
 
 toAPI(store, {type: "ADD_AUTH"}, {url : '/verify', data : {
@@ -16,6 +16,7 @@ toAPI(store, {type: "ADD_AUTH"}, {url : '/verify', data : {
             false
     }
 });
+toAPI(store, {type: "ADD_CATEGORY"}, {url : '/categories', data : {}})
 
 ReactDOM.render(
     <Provider store={store}>

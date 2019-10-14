@@ -1,172 +1,88 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './styles/Header.css';
 import { Link } from "react-router-dom";
-import API from './api.js';
+import { connect } from 'react-redux';
 
 class Header extends Component {
+    onLogout() {
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        this.props.clearUser()
+    }
     render() {
+        console.log(this.props);
+        let name;
+        if (this.props.authState.user)
+            name = this.props.authState.user.name;
+        else name = false;
         return (
             <div>
-                <Logo />
-                <Menus />
+                <div className='logo'>
+                    <h2>Name of shop</h2>
+                </div>
+                <div className='menus'>
+                    <div className='navigateLinks'>
+                        {
+                            ['Main Page', 'login', 'signIn', 'bucket', 'something']
+                                .map((item) => <ButtonLink name={item}/>)
+                        }
+                    </div>
+                    <div className='search'>
+                        <input/>
+                        <br/>
+                        <input type='checkbox'/>
+                        <label>Something that...</label>
+                    </div>
+                    <div className='userContainer'>
+                        <div>
+                            <Link to='/bucket'>
+                                <img src='/src/res/bucket.ico'/>
+                            </Link>
+                        </div>
+                        <div>
+                            {
+                                name ? (
+                                    <div>
+                                        {name}
+                                        <button onClick={this.onLogout.bind(this)}>Logout</button>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <Link to='login'>
+                                            <button id='isLogin'>Login</button>
+                                        </Link>
+                                    </div>
+                                )
+
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
-class Logo extends Component {
-    render() {
-        return (
-            <div class='logo'>
-                <h2>Name of shop</h2>
-            </div>
-        );
-    }
-}
-
-class Menus extends Component {
-    render() {
-        return (
-            <div class='menus'>
-                <NavigateLinks />
-                <Search />
-                <User />
-            </div>
-        );
-    }
-}
-
-class NavigateLinks extends Component {
-    render() {
-        return (
-            <div class='navigateLinks'>
-                {
-                    ['Main Page', 'login', 'signIn', 'bucket', 'something']
-                        .map((item)=> <ButtonLink name={item} />)
-                }
-            </div>
-        );
-    }
-}
 
 class ButtonLink extends Component {
     render() {
         return (
             <div class='buttonLink'>
                 <Link to={this.props.name}>
-                <button>{this.props.name}</button>
+                    <button>{this.props.name}</button>
                 </Link>
             </div>
         );
     }
 }
 
-class Search extends Component {
-
-    render() {
-        return (
-            <div class='search'>
-                <input/>
-                <br/>
-                <input type='checkbox' />
-                <label>Something that...</label>
-            </div>
-        );
-    }
-}
-
-class User extends Component {
-    render() {
-        return (
-            <div class='userContainer'>
-                <Bucket />
-                <UserInfo />
-            </div>
-        );
-    }
-}
-
-class Bucket extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: false
-        };
-    }
-    componentDidMount() {
-        let count = localStorage.getItem('count') ? localStorage.getItem('count') : false;
-        this.setState({
-                value: count
-        });
-    }
-
-    render() {
-        return (
-            <div>
-                {this.state.value ? this.state.value + ' ->  ' : false}
-                <Link to='/bucket'>
-                    <img src='/src/res/bucket.ico'/>
-                </Link>
-            </div>
-        );
-    }
-}
-
-class UserInfo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: false
-        };
-        this.onClick = this.onClick.bind(this);
-    }
-    componentDidMount() {
-        let user = {
-            'token' : localStorage.getItem('token')
+export default connect(
+    state => ({
+        authState: state.process
+    }),
+    dispatch => ({
+        clearUser : () => {
+            dispatch({type: 'DEL_AUTH'});
         }
-        if(!user.token)
-            user.token = sessionStorage.getItem('token');
-        if(!user.token) return false;
-        fetch('http://' + API.host + ':' + API.port + '/verify', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
-            .then(res => res.json())
-                .then(
-                    (result) => {
-                    this.setState({
-                        name: result.name
-                    });
-                })
-            .catch((err)=>{this.setState({
-                name: 'error of connection'
-            });})
-    }
-    onClick () {
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
-        this.setState({name :false});
-    }
-    render() {
-        if(this.state.name){
-        return (
-            <div>
-                {this.state.name}
-                <button onClick={this.onClick}>Logout</button>
-            </div>
-        );}
-        else {
-        return (
-            <div>
-                <Link to='login'><button id='isLogin'>Login</button></Link>
-            </div>
-        );}
-    }
-}
-
-
-export default Header;
+    })
+)(Header);

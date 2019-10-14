@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
-import API from "../api";
-import {Link} from "react-router-dom";
+import {Link , Redirect} from "react-router-dom";
+import { toAPI } from "../redux/actions";
+import store from "../redux";
+import {connect} from "react-redux";
 
 class LoginPage extends Component {
 
@@ -42,31 +44,14 @@ class LoginForm extends Component {
             email : this.state.email,
             pass : this.state.pass
         }
-        fetch('http://' + API.host + ':' + API.port + '/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    if(result.success) {
-                        if(this.state.remember) localStorage.setItem('token', result.token);
-                        else sessionStorage.setItem('token', result.token);
-                        document.location=('/dashboard');
-                    }
-                    else this.setState({
-                        invalidData : 'incorrect login or password'
-                    });
-                })
-            .catch(()=>{this.setState({
-                invalidData : 'Error of connection to server'
-            });})
+        toAPI(store, {type: 'ADD_USER', remember: this.state.remember}, {url: '/login', data: user});
+        console.log(store.getState());
     }
     render() {
-
+        if(store.getState().process.logined)
+            return (
+                <Redirect to='/'/>
+            )
         return (
             <div class='LoginForm'>
                 <div>
@@ -131,4 +116,9 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginPage;
+export default connect(
+    state => ({
+        logined: state.process
+    }),
+    dispatch => ({})
+)(LoginPage);

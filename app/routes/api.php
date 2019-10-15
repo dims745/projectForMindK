@@ -8,11 +8,25 @@ Route::post('/signIn', 'Auth\RegisterController@processingUserData');
 
 Route::post('/verify', 'Auth\LoginController@verifyToken');
 
-Route::post('/categories', 'productController@getCategories');
 
-Route::post('/products/popular', 'productController@showMostPopularProducts');
 
-Route::post('/products/add', 'productController@addProduct');
+Route::get('/categories', 'productController@getCategories');
+
+Route::post('/categories', 'productController@addCategory');
+
+
+
+Route::get('/products/popular', 'productController@showMostPopularProducts');
+
+Route::post('/products', 'productController@addProduct');
+
+Route::get('/products', 'productController@getAllProduct');
+
+Route::get('/products/category', 'productController@getProductOfCategory');
+
+
+
+// TEMP
 
 Route::post('/orderItem/add', 'productController@addOrderItem');
 

@@ -30,9 +30,11 @@ class productController extends Controller
 
     public function addOrderItem(Request $req) {
         $order = new OrderItem();
-        $order->orderId = $req->input('orderId');
-        $order->productId = $req->input('productId');
-        $order->count = $req->input('count');
+        $order->fill([
+            'orderId' => $req->input('orderId'),
+            'productId' => $req->input('productId'),
+            'count' => $req->input('count')
+        ]);
         $order->save();
         $order = OrderItem::all();
         return response()->json($order);
@@ -45,9 +47,13 @@ class productController extends Controller
 
     public function addCategory(Request $req) {
         $category = new Category();
-        $category->name = $req->input('name');
-        $category->description = $req->input('description');
+        $category->fill([
+            'name' => $req->input('name'),
+            'description' => $req->input('description')
+        ]);
         $category->save();
+        $category = Category::all();
+        return response()->json($category);
     }
 
     public function getCategories() {
@@ -57,18 +63,25 @@ class productController extends Controller
 
     public function addProduct(Request $req) {
         $product = new Product();
-        $product->name = $req->input('name');
-        $product->price = $req->input('price');
-        $product->count = $req->input('count');
-        $product->description = $req->input('description');
-        $product->manufacturer = $req->input('manufacturer');
-        $product->categoryId = $req->input('categoryId');
+        $product->fill([
+            'name' => $req->input('name'),
+            'price' => $req->input('price'),
+            'count' => $req->input('count'),
+            'description' => $req->input('description'),
+            'manufacturer' => $req->input('manufacturer'),
+            'categoryId' => $req->input('categoryId')
+        ]);
         $product->save();
     }
 
     public function getProductOfCategory(Request $req) {
         $category = $req->input('category');
         $products = Product::where('categoryId', $category)->get();
+        return response()->json($products);
+    }
+
+    public function getAllProduct() {
+        $products = Product::all();
         return response()->json($products);
     }
 }

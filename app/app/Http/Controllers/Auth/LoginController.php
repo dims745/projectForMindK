@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\User;
+use App\Helper;
 
 class LoginController extends Controller
 {
@@ -22,8 +23,9 @@ class LoginController extends Controller
             ->where('password', $pass)
             ->first();
         if($user) {
+
             $success = true;
-            $token = LoginController::makeToken($user->email, $user->id, $user->name);
+            $token = Helper::makeToken($user->email, $user->id, $user->name);
             return [
                 'success' => $success,
                 'id' => $user->id,
@@ -49,37 +51,12 @@ class LoginController extends Controller
         if(!(json_decode(base64_decode($splitToken[0])) && json_decode(base64_decode($splitToken[1])))){
             return response()->json(["success" => 'false']);
         }
-        $checking = LoginController::buildSignature($splitToken[0], $splitToken[1]);
+        $checking = Helper::buildSignature($splitToken[0], $splitToken[1]);
         return response()->json([
-            "success" => !!(LoginController::base64url_encode($checking) == $splitToken[2]),
+            "success" => !!(Helper::base64url_encode($checking) == $splitToken[2]),
             "id" => json_decode(base64_decode($splitToken[1]))->id,
             "email" => json_decode(base64_decode($splitToken[1]))->email,
             "name" => json_decode(base64_decode($splitToken[1]))->name
         ]);
-    }
-
-    public static function makeToken($email, $id, $name) {
-        $headers = ['alg'=>'HS256','typ'=>'JWT'];
-        $headers_encoded = LoginController::base64url_encode(json_encode($headers));
-
-        $payload = ['email'=>$email, 'id'=>$id, 'name'=>$name];
-        $payload_encoded = LoginController::base64url_encode(json_encode($payload));
-
-        $signature_encoded = LoginController::base64url_encode(
-            LoginController::buildSignature($headers_encoded,$payload_encoded)
-        );
-
-        $token = "$headers_encoded.$payload_encoded.$signature_encoded";
-        return $token;
-    }
-
-    public static function base64url_encode($data) {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-    }
-
-    public static function buildSignature($header, $payload) {
-        $key = 'secret';
-        $signature = hash_hmac('SHA256',"$header.$payload",$key,true);
-        return $signature;
     }
 }

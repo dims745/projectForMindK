@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helper;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,7 @@ class RegisterController extends Controller
         $user = $this->create($req->all());
         return response()->json([
             'success' => true,
-            'token' => LoginController::makeToken($user->email, $user->id, $user->name)
+            'token' => Helper::makeToken($user->email, $user->id, $user->name)
         ]);
     }
 

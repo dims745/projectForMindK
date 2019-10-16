@@ -5,10 +5,9 @@ import './index.css';
 import {BrowserRouter} from "react-router-dom";
 import { Provider } from 'react-redux';
 import store from './redux';
-//import thunk from "redux-thunk";
-import { toAPI } from "./redux/actions";
+import { toAPI } from "./redux/toAPI";
 
-toAPI(store, {type: "ADD_AUTH"}, {url : '/verify', data : {
+toAPI(store, {type: "VERIFY_USER"}, {url : '/verify', method : 'POST', data : {
     token : localStorage.getItem('token') ?
         localStorage.getItem('token') :
         sessionStorage.getItem('token') ?
@@ -16,7 +15,7 @@ toAPI(store, {type: "ADD_AUTH"}, {url : '/verify', data : {
             false
     }
 });
-toAPI(store, {type: "ADD_CATEGORY"}, {url : '/categories', data : {}})
+toAPI(store, {type: "GET_CATEGORY"}, {url : '/categories', data : {}})
 
 ReactDOM.render(
     <Provider store={store}>

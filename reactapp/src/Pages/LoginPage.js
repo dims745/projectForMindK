@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
 import {Link , Redirect} from "react-router-dom";
-import { toAPI } from "../redux/actions";
+import { toAPI } from "../redux/toAPI";
 import store from "../redux";
 import {connect} from "react-redux";
+import md5 from 'md5';
 
 class LoginPage extends Component {
 
@@ -43,8 +44,12 @@ class LoginForm extends Component {
         let user = {
             email : this.state.email,
             pass : this.state.pass
-        }
-        toAPI(store, {type: 'ADD_USER', remember: this.state.remember}, {url: '/login', data: user});
+        };
+        user.pass = md5(user.pass);
+        toAPI(store,
+            {type: 'LOGIN_USER', remember: this.state.remember},
+            {url: '/login', method: 'POST', data: user}
+            );
         console.log(store.getState());
     }
     render() {

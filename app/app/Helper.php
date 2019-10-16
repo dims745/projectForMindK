@@ -11,7 +11,7 @@ class Helper
         $payload = ['email'=>$email, 'id'=>$id, 'name'=>$name];
         $payload_encoded = Helper::base64url_encode(json_encode($payload));
 
-        $signature_encoded = this.base64url_encode(
+        $signature_encoded = Helper::base64url_encode(
             Helper::buildSignature($headers_encoded,$payload_encoded)
         );
 

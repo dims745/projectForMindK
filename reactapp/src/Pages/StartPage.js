@@ -10,11 +10,11 @@ class StartPage extends Component {
             <div class='general2'>
                 <div>
                     <ul>
-                        {this.props.categories.map(item => <li><Link to={item}/></li>)}
+
                     </ul>
                 </div>
                 <div>
-                    items
+
                 </div>
             </div>
         );

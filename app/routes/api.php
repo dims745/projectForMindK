@@ -16,13 +16,13 @@ Route::post('/categories', 'productController@addCategory');
 
 
 
-Route::get('/products/popular', 'productController@showMostPopularProducts');
+Route::get('/products', 'productController@getAllProduct');
 
 Route::post('/products', 'productController@addProduct');
 
-Route::get('/products', 'productController@getAllProduct');
+Route::get('/products/popular', 'productController@showMostPopularProducts');
 
-Route::get('/products/category', 'productController@getProductOfCategory');
+Route::get('/products/category/{category}', 'productController@getProductOfCategory');
 
 
 

@@ -26,8 +26,10 @@ Route::get('/products/category/{category}', 'productController@getProductOfCateg
 
 
 
+Route::get('/resources/{resources}', 'Controller@getRes');
+
 // TEMP
 
-Route::post('/orderItem/add', 'productController@addOrderItem');
+Route::post('/orderItem', 'productController@addOrderItem');
 
-Route::post('/orderItem/show', 'productController@showOrderItems');
+Route::get('/orderItem', 'productController@showOrderItems');

@@ -47,7 +47,7 @@ class SigninForm extends Component {
             email : this.state.email,
             password : this.state.password
         };
-        user.pass = md5(user.password);
+        user.password = md5(user.password);
         toAPI(store,
             {type: 'ADD_USER', remember: this.state.remember},
             {url: '/signIn', method: 'POST', data: user}

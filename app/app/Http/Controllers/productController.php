@@ -14,7 +14,7 @@ class productController extends Controller
 
     public function showMostPopularProducts() {
         $products = [];
-        $i = 1;
+        $i = 0;
         $productIds = OrderItem::select('productId')
             ->groupBy('productId')
             ->orderBy(DB::raw(' sum(count) '),'desc')
@@ -25,7 +25,7 @@ class productController extends Controller
                 ->first();
             $i++;
         }
-        return response()->json($products);
+        return $products;
     }
 
     public function addOrderItem(Request $req) {
@@ -69,13 +69,15 @@ class productController extends Controller
             'count' => $req->input('count'),
             'description' => $req->input('description'),
             'manufacturer' => $req->input('manufacturer'),
-            'categoryId' => $req->input('categoryId')
+            'categoryId' => $req->input('categoryId'),
+            'image' => $req->input('image')
         ]);
         $product->save();
     }
 
     public function getProductOfCategory($category ,Request $req) {
-        $products = Product::where('categoryId', $category)->get();
+        $categoryId = Category::where('name', $category)->first()->id;
+        $products = Product::where('categoryId', $categoryId)->get();
         return response()->json($products);
     }
 

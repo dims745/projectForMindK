@@ -6,25 +6,29 @@ import CategoryView from "./Pages/CategoryView";
 import Bucket from "./Pages/Bucket";
 import LoginPage from "./Pages/LoginPage";
 import SigninPage from "./Pages/SigninPage";
+import ItemPage from "./Pages/ItemPage";
 
 class Main extends Component {
     render() {
         return (
             <div>
                 <Switch>
-                    <Route path='/login'>
+                    <Route path={'/login'}>
                         <LoginPage />
                     </Route>
-                    <Route path='/signin'>
+                    <Route path={'/signin'}>
                         <SigninPage />
                     </Route>
-                    <Route path='/bucket'>
+                    <Route path={'/bucket'}>
                         <Bucket />
                     </Route>
-                    <Route path='/category'>
+                    <Route path={'/item'}>
+                        <ItemPage />
+                    </Route>
+                    <Route path={'/category'}>
                         <CategoryView />
                     </Route>
-                    <Route path='/'>
+                    <Route path={'/'}>
                         <StartPage />
                     </Route>
                 </Switch>

@@ -10,7 +10,6 @@ class Header extends Component {
         this.props.clearUser()
     }
     render() {
-        console.log(this.props);
         let name;
         if (this.props.authState.user)
             name = this.props.authState.user.name;
@@ -36,7 +35,11 @@ class Header extends Component {
                     <div className='userContainer'>
                         <div>
                             <Link to='/bucket'>
-                                <img src='/src/res/bucket.ico'/>
+                                {Object.values(this.props.bucket).length ?
+                                    Object.values(this.props.bucket).reduce((sum, current) => sum + current)
+                                : 0
+                                }->
+                                <img className={'ico'} src={'http://' + this.props.api.host + ':' + this.props.api.port + '/api/resources/bucket'}/>
                             </Link>
                         </div>
                         <div>
@@ -48,12 +51,11 @@ class Header extends Component {
                                     </div>
                                 ) : (
                                     <div>
-                                        <Link to='login'>
+                                        <Link to='/login'>
                                             <button id='isLogin'>Login</button>
                                         </Link>
                                     </div>
                                 )
-
                             }
                         </div>
                     </div>
@@ -63,12 +65,11 @@ class Header extends Component {
     }
 }
 
-
 class ButtonLink extends Component {
     render() {
         return (
             <div class='buttonLink'>
-                <Link to={this.props.name}>
+                <Link to={'/' + this.props.name}>
                     <button>{this.props.name}</button>
                 </Link>
             </div>
@@ -78,7 +79,9 @@ class ButtonLink extends Component {
 
 export default connect(
     state => ({
-        authState: state.process
+        authState: state.process,
+        api: state.process.API,
+        bucket: state.process.bucket
     }),
     dispatch => ({
         clearUser : () => {

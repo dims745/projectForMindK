@@ -44,3 +44,12 @@ button{
     height: 100%;
 }
 input{max-width: 90%;}
+img.ico {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+img {
+    max-height: 200px;
+    max-width: 200px;
+}

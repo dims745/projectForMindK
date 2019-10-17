@@ -1,3 +1,19 @@
 .general2 {
     display: flex;
+    justify-content: space-around;
+}
+.twoConteiner {
+    display: flex;
+    justify-content: space-around;
+}
+.Items {
+    display: flex;
+    flex-flow: wrap;
+}
+.Item {
+    margin: 20px;
+}
+.categories {
+    min-width: 200px;
+    width: 20%;
 }

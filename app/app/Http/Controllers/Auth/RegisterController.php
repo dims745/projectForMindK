@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Helper;
+use App\AuthHelper;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +30,7 @@ class RegisterController extends Controller
             'id' => $user->id,
             'email' => $user->email,
             'name' => $user->name,
-            'token' => Helper::makeToken($user->email, $user->id, $user->name)
+            'token' => AuthHelper::makeToken($user->email, $user->id, $user->name)
         ]);
     }
 

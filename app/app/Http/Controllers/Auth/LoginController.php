@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\User;
-use App\Helper;
+use App\AuthHelper;
 
 class LoginController extends Controller
 {
@@ -25,7 +25,7 @@ class LoginController extends Controller
         if($user) {
 
             $success = true;
-            $token = Helper::makeToken($user->email, $user->id, $user->name);
+            $token = AuthHelper::makeToken($user->email, $user->id, $user->name);
             return [
                 'success' => $success,
                 'id' => $user->id,
@@ -51,9 +51,9 @@ class LoginController extends Controller
         if(!(json_decode(base64_decode($splitToken[0])) && json_decode(base64_decode($splitToken[1])))){
             return response()->json(["success" => 'false']);
         }
-        $checking = Helper::buildSignature($splitToken[0], $splitToken[1]);
+        $checking = AuthHelper::buildSignature($splitToken[0], $splitToken[1]);
         return response()->json([
-            "success" => !!(Helper::base64url_encode($checking) == $splitToken[2]),
+            "success" => !!(AuthHelper::base64url_encode($checking) == $splitToken[2]),
             "id" => json_decode(base64_decode($splitToken[1]))->id,
             "email" => json_decode(base64_decode($splitToken[1]))->email,
             "name" => json_decode(base64_decode($splitToken[1]))->name

@@ -2,17 +2,17 @@
 
 namespace App;
 
-class Helper
+class AuthHelper
 {
     public static function makeToken($email, $id, $name) {
         $headers = ['alg'=>'HS256','typ'=>'JWT'];
-        $headers_encoded = Helper::base64url_encode(json_encode($headers));
+        $headers_encoded = AuthHelper::base64url_encode(json_encode($headers));
 
         $payload = ['email'=>$email, 'id'=>$id, 'name'=>$name];
-        $payload_encoded = Helper::base64url_encode(json_encode($payload));
+        $payload_encoded = AuthHelper::base64url_encode(json_encode($payload));
 
-        $signature_encoded = Helper::base64url_encode(
-            Helper::buildSignature($headers_encoded,$payload_encoded)
+        $signature_encoded = AuthHelper::base64url_encode(
+            AuthHelper::buildSignature($headers_encoded,$payload_encoded)
         );
 
         $token = "$headers_encoded.$payload_encoded.$signature_encoded";

@@ -6,7 +6,7 @@ class Footer extends Component {
 
     render() {
         return (
-            <div class='generalFoot'>
+            <div className={'generalFoot'}>
                 <h1>INFO IN FOOTER</h1>
             </div>
         );

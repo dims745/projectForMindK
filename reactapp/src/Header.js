@@ -68,7 +68,7 @@ class Header extends Component {
 class ButtonLink extends Component {
     render() {
         return (
-            <div class='buttonLink'>
+            <div className={'buttonLink'}>
                 <Link to={'/' + this.props.name}>
                     <button>{this.props.name}</button>
                 </Link>

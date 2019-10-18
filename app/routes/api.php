@@ -10,9 +10,9 @@ Route::post('/verify', 'Auth\LoginController@verifyToken');
 
 
 
-Route::get('/categories', 'productController@getCategories');
+Route::get('/categories', 'CategoryController@getCategories');
 
-Route::post('/categories', 'productController@addCategory');
+Route::post('/categories', 'CategoryController@addCategory');
 
 
 
@@ -30,6 +30,6 @@ Route::get('/resources/{resources}', 'Controller@getRes');
 
 // TEMP
 
-Route::post('/orderItem', 'productController@addOrderItem');
+Route::post('/orderItem', 'OrderController@addOrderItem');
 
-Route::get('/orderItem', 'productController@showOrderItems');
+Route::get('/orderItem', 'OrderController@showOrderItems');

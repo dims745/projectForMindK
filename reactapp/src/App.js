@@ -8,7 +8,7 @@ import Main from './Main.js';
 class App extends Component {
   render() {
     return (
-        <div class='general'>
+        <div className={'general'}>
             <Header />
             <Main />
             <Footer />

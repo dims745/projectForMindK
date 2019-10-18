@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Storage;
 class Controller extends BaseController
 {
     public function getRes($resource) {
-        $contents = Storage::get($resource.'.jpg');
-        return $contents;
+        if(file_exists('../storage/app/'.$resource.'.jpg'))
+            return Storage::get($resource.'.jpg');
+        return Storage::get('no.png');
+
     }
 }

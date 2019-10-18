@@ -21,7 +21,6 @@ class Products extends Migration
             $table->text('description');
             $table->string('manufacturer');
             $table->integer('categoryId');
-            $table->string('image');
             $table->timestamps();
         });
     }

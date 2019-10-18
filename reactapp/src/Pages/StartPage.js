@@ -10,7 +10,7 @@ class StartPage extends Component {
         console.log(document.location.href);
         let i = 0;
         return (
-            <div class='general2'>
+            <div className={'general2'}>
                 <div className={'categories'}>
                     <h3>
                         Categories

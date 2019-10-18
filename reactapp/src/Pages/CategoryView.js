@@ -29,9 +29,11 @@ class CategoryView extends Component {
                         items.map(item => <Item item={item}/>)
                     }
                     <br/>
-                    {pages.map(item => <Link to={'/category/' + category.name + '?page=' + item}>
-                        <button>{item}</button>
-                    </Link>)}
+                    <div>
+                        {pages.map(item => <Link to={'/category/' + category.name + '?page=' + item}>
+                            <button>{item}</button>
+                        </Link>)}
+                    </div>
                 </div>
             </div>
         );

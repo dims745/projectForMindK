@@ -23,7 +23,7 @@ class Header extends Component {
                     <div className='navigateLinks'>
                         {
                             ['Main Page', 'login', 'signIn', 'bucket', 'something']
-                                .map((item) => <ButtonLink name={item}/>)
+                                .map((item) => <ButtonLink key={'but' + item} name={item}/>)
                         }
                     </div>
                     <div className='search'>
@@ -39,7 +39,7 @@ class Header extends Component {
                                     Object.values(this.props.bucket).reduce((sum, current) => sum + current)
                                 : 0
                                 }->
-                                <img className={'ico'} src={'http://' + this.props.api.host + ':' + this.props.api.port + '/api/resources/bucket'}/>
+                                <img className={'ico'} src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/bucket.ico'}/>
                             </Link>
                         </div>
                         <div>

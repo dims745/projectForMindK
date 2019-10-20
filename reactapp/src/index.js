@@ -15,6 +15,13 @@ toAPI(store, {type: "VERIFY_USER"}, {url : '/verify', method : 'POST', data : {
                 false
     }
 });
+if(sessionStorage.bucket)
+    store.dispatch({
+        type: "SET_BUCKET",
+        bucket: JSON.parse(sessionStorage.getItem('bucket'))
+    });
+else store.dispatch({type: "SET_BUCKET", bucket: {}});
+
 toAPI(store, {type: "GET_CATEGORY"}, {url : '/categories', method: 'GET'});
 toAPI(store, {type: "GET_POP_ITEMS"}, {url : '/products/popular', method: 'GET'});
 toAPI(store, {type: "GET_ITEMS"}, {url : '/products', method: 'GET'});

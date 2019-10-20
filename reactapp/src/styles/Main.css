@@ -17,3 +17,14 @@
     min-width: 200px;
     width: 20%;
 }
+.Pagination {
+    display: flex;
+    justify-content: center;
+}
+.PageButton {
+    width: 30px;
+    height: 25px;
+}
+.img {
+
+}

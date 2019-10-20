@@ -24,10 +24,6 @@ Route::get('/products/popular', 'productController@showMostPopularProducts');
 
 Route::get('/products/category/{category}', 'productController@getProductOfCategory');
 
-
-
-Route::get('/resources/{resources}', 'Controller@getRes');
-
 // TEMP
 
 Route::post('/orderItem', 'OrderController@addOrderItem');

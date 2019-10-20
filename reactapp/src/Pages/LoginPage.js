@@ -58,7 +58,7 @@ class LoginForm extends Component {
                 <Redirect to='/'/>
             )
         return (
-            <div class='LoginForm'>
+            <div className='LoginForm'>
                 <div>
                     <form onSubmit={this.onSubmit}>
                         <table>

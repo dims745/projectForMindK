@@ -13,7 +13,8 @@ class Controller extends BaseController
     public function getRes($resource) {
         if(file_exists('../storage/app/'.$resource.'.jpg'))
             return Storage::get($resource.'.jpg');
-        return Storage::get('no.png');
+        print_r(Storage::get('no.png'));
+        return;
 
     }
 }

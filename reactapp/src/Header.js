@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import './styles/Header.css';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import UserBox from "./Pages/UserBox";
 import { connect } from 'react-redux';
 
 class Header extends Component {
-    onLogout() {
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
-        this.props.clearUser()
+    onClick(event) {
+        if(event) if(event.keyCode !== 13) return false;
+        this.props.before(true, this.refs.search.value);
     }
     render() {
-        let name;
-        if (this.props.authState.user)
-            name = this.props.authState.user.name;
-        else name = false;
+        if(this.props.search && this.props.search.is) {
+            setTimeout(()=>this.props.before(false, undefined), 0);
+            return (
+                <Redirect to={'/search?key=' + this.props.search.string}/>
+            );
+        }
         return (
             <div>
                 <div className='logo'>
@@ -23,55 +25,24 @@ class Header extends Component {
                     <div className='navigateLinks'>
                         {
                             ['Main Page', 'login', 'signIn', 'bucket', 'something']
-                                .map((item) => <ButtonLink key={'but' + item} name={item}/>)
-                        }
-                    </div>
-                    <div className='search'>
-                        <input/>
-                        <br/>
-                        <input type='checkbox'/>
-                        <label>Something that...</label>
-                    </div>
-                    <div className='userContainer'>
-                        <div>
-                            <Link to='/bucket'>
-                                {Object.values(this.props.bucket).length ?
-                                    Object.values(this.props.bucket).reduce((sum, current) => sum + current)
-                                : 0
-                                }->
-                                <img className={'ico'} src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/bucket.ico'}/>
-                            </Link>
-                        </div>
-                        <div>
-                            {
-                                name ? (
-                                    <div>
-                                        {name}
-                                        <button onClick={this.onLogout.bind(this)}>Logout</button>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <Link to='/login'>
-                                            <button id='isLogin'>Login</button>
+                                .map((item) =>
+                                    <div className={'buttonLink'}>
+                                        <Link to={'/' + item}>
+                                            <button>{item}</button>
                                         </Link>
                                     </div>
                                 )
-                            }
-                        </div>
+                        }
                     </div>
+                    <div className='search'>
+                        <input onKeyPress={()=>this.onClick(event)} ref={'search'}/>
+                        <br/><br/>
+                        <button onClick={()=>this.onClick()}>
+                            Search
+                        </button>
+                    </div>
+                    <UserBox/>
                 </div>
-            </div>
-        );
-    }
-}
-
-class ButtonLink extends Component {
-    render() {
-        return (
-            <div className={'buttonLink'}>
-                <Link to={'/' + this.props.name}>
-                    <button>{this.props.name}</button>
-                </Link>
             </div>
         );
     }
@@ -79,13 +50,13 @@ class ButtonLink extends Component {
 
 export default connect(
     state => ({
-        authState: state.process,
-        api: state.process.API,
-        bucket: state.process.bucket
+        search: state.process.search
     }),
     dispatch => ({
-        clearUser : () => {
-            dispatch({type: 'DEL_AUTH'});
+        before(is, string) {
+            dispatch({type: "SEARCH", search: {is, string}});
         }
     })
-)(Header);
+)(
+    Header
+);

@@ -7,17 +7,6 @@ import {connect} from "react-redux";
 import md5 from 'md5';
 
 class SigninPage extends Component {
-
-    render() {
-        return (
-            <div class='LoginPage'>
-                <SigninForm />
-            </div>
-        );
-    }
-}
-
-class SigninForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -60,71 +49,73 @@ class SigninForm extends Component {
                 <Redirect to='/'/>
             );
         return (
-            <div class='LoginForm'>
-                <div>
-                    <form onSubmit={this.onSubmit}>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <h3>
-                                        Sign In
-                                    </h3>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Name
-                                </td>
-                                <td>
-                                    <input name='name' value={this.state.name} onChange={this.handleInputChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Email</label>
-                                </td>
-                                <td>
-                                    <input name='email' value={this.state.email} onChange={this.handleInputChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>password </label>
-                                </td>
-                                <td>
-                                    <input name='password' type='password' value={this.state.password} onChange={this.handleInputChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
-                                    <label>   Remember to LogIn?</label>
-                                </td>
+            <div className='LoginPage'>
+                <div class='LoginForm'>
+                    <div>
+                        <form onSubmit={this.onSubmit}>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <h3>
+                                            Sign In
+                                        </h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Name
+                                    </td>
+                                    <td>
+                                        <input name='name' value={this.state.name} onChange={this.handleInputChange}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Email</label>
+                                    </td>
+                                    <td>
+                                        <input name='email' value={this.state.email} onChange={this.handleInputChange}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>password </label>
+                                    </td>
+                                    <td>
+                                        <input name='password' type='password' value={this.state.password} onChange={this.handleInputChange}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
+                                        <label>   Remember to LogIn?</label>
+                                    </td>
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='submit' value='submit' class='submit'/>
-                                </td>
-                                <td>
-                                    {this.state.invalidData}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Already have account?
-                                </td>
-                                <td>
-                                    <Link to='/login'>
-                                        LogIn
-                                    </Link>
-                                </td>
-                            </tr>
-                            <tr><td></td></tr>
-                            </tbody>
-                        </table>
-                    </form>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type='submit' value='submit' class='submit'/>
+                                    </td>
+                                    <td>
+                                        {this.state.invalidData}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Already have account?
+                                    </td>
+                                    <td>
+                                        <Link to='/login'>
+                                            LogIn
+                                        </Link>
+                                    </td>
+                                </tr>
+                                <tr><td></td></tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
             </div>
         );

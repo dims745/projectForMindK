@@ -7,6 +7,7 @@ import Bucket from "./Pages/Bucket";
 import LoginPage from "./Pages/LoginPage";
 import SigninPage from "./Pages/SigninPage";
 import ItemPage from "./Pages/ItemPage";
+import SearchPage from "./Pages/SearchPage";
 
 class Main extends Component {
     render() {
@@ -27,6 +28,9 @@ class Main extends Component {
                     </Route>
                     <Route path={'/category'}>
                         <CategoryView />
+                    </Route>
+                    <Route path={'/search'}>
+                        <SearchPage/>
                     </Route>
                     <Route path={'/'}>
                         <StartPage />

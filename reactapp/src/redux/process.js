@@ -19,6 +19,8 @@ const initState = {
 
 export default function process (state = initState, action) {
     switch (action.type) {
+        case "PAGINATION": return {...state, pagination: !state.pagination};
+        case "SEARCH": return {...state, search: action.search};
         case "GET_ITEMS": return {...state, items: action.result};
         case "ADD_TO_BUCKET": return addToBucket(state, action);
         case "SET_BUCKET":

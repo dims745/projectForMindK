@@ -5,6 +5,9 @@ import '../styles/Main.css';
 import {Link} from "react-router-dom";
 
 class CategoryView extends Component {
+    onClick () {
+        this.props.onClick();
+    }
     render() {
         let page = 1;
         let tmp = document.location.href.split('?');
@@ -30,7 +33,7 @@ class CategoryView extends Component {
                 </div>
                 <div className='Pagination'>
                     {pages.map(item => <Link to={'/category/' + category.name + '?page=' + item}>
-                        <button className={'PageButton'}>{item}</button>
+                        <button onClick={()=>this.onClick()} className={'PageButton'}>{item}</button>
                     </Link>)}
                 </div>
             </div>
@@ -42,7 +45,12 @@ export default connect(
     state => ({
         items: state.process.items,
         category: state.process.categories,
-        api: state.process.API
+        api: state.process.API,
+        pag: state.process.pagination
     }),
-    dispatch => ({})
+    dispatch => ({
+        onClick() {
+            dispatch({type: "PAGINATION"});
+        }
+    })
 )(CategoryView);

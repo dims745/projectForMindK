@@ -7,17 +7,6 @@ import {connect} from "react-redux";
 import md5 from 'md5';
 
 class LoginPage extends Component {
-
-    render() {
-        return (
-            <div class='LoginPage'>
-                <LoginForm />
-            </div>
-        );
-    }
-}
-
-class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -58,63 +47,65 @@ class LoginForm extends Component {
                 <Redirect to='/'/>
             )
         return (
-            <div className='LoginForm'>
-                <div>
-                    <form onSubmit={this.onSubmit}>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <h3>
-                                        Log In
-                                    </h3>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Email</label>
-                                </td>
-                                <td>
-                                    <input name='email' value={this.state.email} onChange={this.handleInputChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>password </label>
-                                </td>
-                                <td>
-                                    <input name='pass' type='password' value={this.state.pass} onChange={this.handleInputChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
-                                    <label>   Remember?</label>
-                                </td>
+            <div className='LoginPage'>
+                <div className='LoginForm'>
+                    <div>
+                        <form onSubmit={this.onSubmit}>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <h3>
+                                            Log In
+                                        </h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Email</label>
+                                    </td>
+                                    <td>
+                                        <input name='email' value={this.state.email} onChange={this.handleInputChange}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>password </label>
+                                    </td>
+                                    <td>
+                                        <input name='pass' type='password' value={this.state.pass} onChange={this.handleInputChange}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
+                                        <label>   Remember?</label>
+                                    </td>
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='submit' value='submit' class='submit'/>
-                                </td>
-                                <td>
-                                    {this.state.invalidData}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    No have account?
-                                </td>
-                                <td>
-                                    <Link to='/signin'>
-                                        SignIn
-                                    </Link>
-                                </td>
-                            </tr>
-                            <tr><td></td></tr>
-                            </tbody>
-                        </table>
-                    </form>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type='submit' value='submit' class='submit'/>
+                                    </td>
+                                    <td>
+                                        {this.state.invalidData}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        No have account?
+                                    </td>
+                                    <td>
+                                        <Link to='/signin'>
+                                            SignIn
+                                        </Link>
+                                    </td>
+                                </tr>
+                                <tr><td></td></tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
             </div>
         );

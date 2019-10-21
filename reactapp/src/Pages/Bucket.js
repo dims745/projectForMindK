@@ -8,7 +8,8 @@ class Bucket extends Component {
         console.log(this.props);
         this.props.addToBucket(t, +this.refs[t].value);
     }
-    render() {console.log(this.props.bucket);
+    render() {
+        console.log(this.props.bucket);
         if(!this.props.items || !this.props.bucket)
             return (
                 <div>

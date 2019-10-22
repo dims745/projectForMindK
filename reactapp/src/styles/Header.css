@@ -26,9 +26,11 @@
     width: 60%;
     height: 100%;
 }
-button{
+button.navigateLink {
     height: 100%;
     width: 100%;
+}
+button {
     border: none;
     font-size: medium;
 }

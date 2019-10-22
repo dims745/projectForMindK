@@ -16,6 +16,7 @@ class Orders extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('userId');
+            $table->string('address');
             $table->timestamps();
         });
     }

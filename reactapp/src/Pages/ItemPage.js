@@ -17,11 +17,11 @@ class ItemPage extends Component{
                 <h3>{item.name}</h3>
                 <p>
                     Categories: {
-                    this.props.categories.find(item => item.id === item.categoryId) ?
+                    this.props.categories.find(it => it.id === item.categoryId) ?
                     <Link to={
-                        '/category/' + this.props.categories.find(item => item.id === item.categoryId).name
+                        '/category/' + this.props.categories.find(it => it.id === item.categoryId).name
                     }>
-                        {this.props.categories.find(item => item.id === item.categoryId).name}
+                        {this.props.categories.find(it => it.id === item.categoryId).name}
                     </Link> : false
                     }
                 </p>

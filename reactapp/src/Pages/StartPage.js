@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import '../styles/Main.css';
 import {Link} from "react-router-dom";
 import { connect } from 'react-redux';
-import Item from "./components";
+import Item from "./Item";
 
 class StartPage extends Component {
-
     render() {
-        console.log(document.location.href);
-        let i = 0;
         return (
             <div className={'general2'}>
                 <div className={'categories'}>
@@ -16,9 +13,13 @@ class StartPage extends Component {
                         Categories
                     </h3>
                     <ul>
-                        {this.props.categories ?
+                        {
+                            this.props.categories ?
                             this.props.categories.map(
-                                category => <li><Link to={'/category/' + category.name}>{category.name}</Link></li>
+                                category => (
+                                    <li key={category.name}>
+                                        <Link key={category.name} to={'/category/' + category.name}>{category.name}</Link>
+                                    </li>)
                             )
                             : false
                         }
@@ -31,12 +32,10 @@ class StartPage extends Component {
                     {this.props.popularItems ?
                         <div className={'Items'}>
                             {
-                                this.props.popularItems.map(item => <Item item={item}/>)
+                                this.props.popularItems.map(item => <Item key={item.id} item={item}/>)
                             }
                         </div>
-
                         : false
-
                     }
 
                 </div>
@@ -49,6 +48,5 @@ export default connect(
     state => ({
         categories: state.process.categories,
         popularItems: state.process.popularItems,
-    }),
-    dispatch => ({})
+    })
 )(StartPage);

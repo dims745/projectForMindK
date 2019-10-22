@@ -39,7 +39,6 @@ class LoginPage extends Component {
             {type: 'LOGIN_USER', remember: this.state.remember},
             {url: '/login', method: 'POST', data: user}
             );
-        console.log(store.getState());
     }
     render() {
         if(store.getState().process.logined)

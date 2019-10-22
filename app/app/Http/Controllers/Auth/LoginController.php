@@ -47,16 +47,6 @@ class LoginController extends Controller
 
     public function verifyToken (Request $req) {
         $token = $req->input('token');
-        $splitToken = explode('.', $token);
-        if(!(json_decode(base64_decode($splitToken[0])) && json_decode(base64_decode($splitToken[1])))){
-            return response()->json(["success" => 'false']);
-        }
-        $checking = AuthHelper::buildSignature($splitToken[0], $splitToken[1]);
-        return response()->json([
-            "success" => !!(AuthHelper::base64url_encode($checking) == $splitToken[2]),
-            "id" => json_decode(base64_decode($splitToken[1]))->id,
-            "email" => json_decode(base64_decode($splitToken[1]))->email,
-            "name" => json_decode(base64_decode($splitToken[1]))->name
-        ]);
+        return AuthHelper::verifyToken($token);
     }
 }

@@ -26,9 +26,9 @@ class Header extends Component {
                         {
                             ['Main Page', 'login', 'signIn', 'bucket', 'something']
                                 .map((item) =>
-                                    <div className={'buttonLink'}>
+                                    <div key={item} className={'buttonLink'}>
                                         <Link to={'/' + item}>
-                                            <button>{item}</button>
+                                            <button className={'navigateLink'}>{item}</button>
                                         </Link>
                                     </div>
                                 )

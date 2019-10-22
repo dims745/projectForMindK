@@ -8,6 +8,7 @@ import LoginPage from "./Pages/LoginPage";
 import SigninPage from "./Pages/SigninPage";
 import ItemPage from "./Pages/ItemPage";
 import SearchPage from "./Pages/SearchPage";
+import Order from "./Pages/Order";
 
 class Main extends Component {
     render() {
@@ -31,6 +32,9 @@ class Main extends Component {
                     </Route>
                     <Route path={'/search'}>
                         <SearchPage/>
+                    </Route>
+                    <Route path={'/order'}>
+                        <Order/>
                     </Route>
                     <Route path={'/'}>
                         <StartPage />

@@ -16,7 +16,6 @@ class SigninPage extends Component {
             pass: '',
             invalidData: ''
         };
-
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -125,6 +124,5 @@ class SigninPage extends Component {
 export default connect(
     state => ({
         logined: state.process
-    }),
-    dispatch => ({})
+    })
 )(SigninPage);

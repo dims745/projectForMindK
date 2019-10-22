@@ -9,17 +9,18 @@ class UserBox extends Component {
         sessionStorage.removeItem('token');
         this.props.clearUser()
     }
+
     render() {
         let name;
-        if (this.props.authState.user)
-            name = this.props.authState.user.name;
+        if (this.props.user)
+            name = this.props.user.name;
         else name = false;
         return (
             <div className='userContainer'>
                 <div>
                     <Link to='/bucket'>
-                        {Object.values(this.props.bucket).length ?
-                            Object.values(this.props.bucket).reduce((sum, current) => sum + current)
+                        {this.props.bucket.length ?
+                            this.props.bucket.reduce((sum, current) => sum + current)
                             : 0
                         }->
                         <img className={'ico'} src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/bucket.ico'}/>
@@ -29,8 +30,7 @@ class UserBox extends Component {
                     {
                         name ? (
                             <div>
-                                {name}
-                                <button onClick={this.onLogout.bind(this)}>Logout</button>
+                                {name} <button onClick={this.onLogout.bind(this)}>Logout</button>
                             </div>
                         ) : (
                             <div>
@@ -48,9 +48,10 @@ class UserBox extends Component {
 
 export default connect(
     state => ({
-        authState: state.process,
+        user: state.process.user,
         api: state.process.API,
-        bucket: state.process.bucket
+        bucket: state.process.bucket,
+        bucketState: state.process.bucketState
     }),
     dispatch => ({
         clearUser : () => {

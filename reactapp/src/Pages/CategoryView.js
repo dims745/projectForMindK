@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Item from "./components";
+import Item from "./Item";
 import '../styles/Main.css';
 import {Link} from "react-router-dom";
 

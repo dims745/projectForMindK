@@ -26,6 +26,4 @@ Route::get('/products/category/{category}', 'productController@getProductOfCateg
 
 // TEMP
 
-Route::post('/orderItem', 'OrderController@addOrderItem');
-
-Route::get('/orderItem', 'OrderController@showOrderItems');
+Route::post('/order', 'OrderController@addOrder');

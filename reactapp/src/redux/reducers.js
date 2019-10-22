@@ -4,7 +4,8 @@ export function authCreate(state, action) {
         user: {
             id: action.id,
             email: action.email,
-            name: action.name
+            name: action.name,
+            token: action.token
         }
 
     };
@@ -29,22 +30,24 @@ export function addAuth(state, action) {
 }
 
 export function addToBucket(state, action) {
-    let bucket = sessionStorage.getItem('bucket');
-    if(!bucket) bucket = [];
-    else bucket = JSON.parse(bucket);
-    if(state.bucket[action.id]){
+    let bucket = state.bucket;
+    if(bucket[action.id]){
         bucket[action.id] += action.count;
-        bucket = state.bucket;
-        bucket[action.id] = state.bucket[action.id] + action.count;
         if(bucket[action.id] <= 0) bucket.splice(action.id, 1);
         sessionStorage.setItem('bucket', JSON.stringify({...bucket}));
-        return {...state, bucket};
+        return {...state, bucket, bucketState: !state.bucketState};
     }
     else {
         bucket[action.id] = action.count;
         sessionStorage.setItem('bucket', JSON.stringify({...bucket}));
-        bucket = state.bucket;
-        bucket[action.id] = action.count;
-        return {...state, bucket};
+        return {...state, bucket, bucketState: !state.bucketState};
     }
+}
+
+export function setBucket (state, action) {
+    let bucket = [];
+    for (let key in action.bucket) {
+        bucket[key] = action.bucket[key];
+    }
+    return {...state, bucket};
 }

@@ -1,34 +1,23 @@
-import {authCreate, addAuth, addToBucket} from './reducers';
-function test(state) {
-    return {
-        ...state,
-        rever : {
-            name: 1
-        }
-    }
+import {authCreate, addAuth, addToBucket, setBucket} from './reducers';
 
-}
 const initState = {
     API : {
         host : 'localhost',
         port : 80
     },
     logined: false,
-    bucket: {}
-}
+    bucket: [],
+    bucketState: false
+};
 
 export default function process (state = initState, action) {
     switch (action.type) {
+        case "MAKE_ORDER": return {...state, orderSuccess: action.result};
         case "PAGINATION": return {...state, pagination: !state.pagination};
         case "SEARCH": return {...state, search: action.search};
         case "GET_ITEMS": return {...state, items: action.result};
         case "ADD_TO_BUCKET": return addToBucket(state, action);
-        case "SET_BUCKET":
-            let bucket = [];
-            for (let key in action.bucket) {
-                bucket[key] = action.bucket[key];
-            }
-            return {...state, bucket};
+        case "SET_BUCKET": return setBucket(state, action);
         case "VERIFY_USER": return authCreate(state, action.result);
         case "LOGIN_USER": if(action.result.success)return addAuth(state, action.result); else return state;
         case "ADD_USER": if(action.result.success)return addAuth(state, action.result); else return state;

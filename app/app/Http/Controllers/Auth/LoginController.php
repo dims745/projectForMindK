@@ -49,4 +49,12 @@ class LoginController extends Controller
         $token = $req->input('token');
         return AuthHelper::verifyToken($token);
     }
+
+    public function loginFB(Request $request) {
+        return response()->json($request->input('response'));
+    }
+
+    public function loginG(Request $request) {
+        return response()->json($request->input('response'));
+    }
 }

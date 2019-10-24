@@ -11,8 +11,8 @@ export function authCreate(state, action) {
     };
 }
 
-export function addAuth(state, action) {
-    if(action.remember)
+export function addAuth(state, action, remember) {
+    if(remember)
         localStorage.setItem('token', action.token);
     else
         sessionStorage.setItem('token', action.token);

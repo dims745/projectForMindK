@@ -8,9 +8,7 @@ Route::post('/signIn', 'Auth\RegisterController@processingUserData');
 
 Route::post('/verify', 'Auth\LoginController@verifyToken');
 
-Route::post('/loginByFB', 'Auth\LoginController@loginFB');
-
-Route::post('/loginByGoogle', 'Auth\LoginController@loginG');
+Route::post('/loginBySN', 'Auth\LoginController@loginWithSN');
 
 
 Route::get('/categories', 'CategoryController@getCategories');

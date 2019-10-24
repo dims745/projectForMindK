@@ -6,8 +6,7 @@ const initState = {
         port : 80
     },
     logined: false,
-    bucket: [],
-    bucketState: false
+    bucket: []
 };
 
 export default function process (state = initState, action) {

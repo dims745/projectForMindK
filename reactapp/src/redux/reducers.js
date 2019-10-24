@@ -30,17 +30,18 @@ export function addAuth(state, action) {
 }
 
 export function addToBucket(state, action) {
-    let bucket = state.bucket;
+    let bucket = [];
+    state.bucket.map((item, index) => bucket[index]=item);
     if(bucket[action.id]){
         bucket[action.id] += action.count;
         if(bucket[action.id] <= 0) bucket.splice(action.id, 1);
         sessionStorage.setItem('bucket', JSON.stringify({...bucket}));
-        return {...state, bucket, bucketState: !state.bucketState};
+        return {...state, bucket};
     }
     else {
         bucket[action.id] = action.count;
         sessionStorage.setItem('bucket', JSON.stringify({...bucket}));
-        return {...state, bucket, bucketState: !state.bucketState};
+        return {...state, bucket};
     }
 }
 

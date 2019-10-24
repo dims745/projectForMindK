@@ -78,8 +78,7 @@ export default connect(
         user: state.process.user,
         items: state.process.items,
         bucket: state.process.bucket,
-        api: state.process.API,
-        bucketState: state.process.bucketState
+        api: state.process.API
     }),
     dispatch => ({
         addToBucket(id, count) {

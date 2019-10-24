@@ -5,8 +5,7 @@ import { toAPI } from "../redux/toAPI";
 import store from "../redux";
 import {connect} from "react-redux";
 import md5 from 'md5';
-import GoogleLogin from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+import AuthWithSN from "./AuthWithSN";
 
 class LoginPage extends Component {
     constructor(props) {
@@ -43,18 +42,6 @@ class LoginPage extends Component {
             );
     }
     render() {
-        const responseGoogle = (response) => {
-            toAPI(store,
-                {type: 'LOGIN_USER', remember: this.state.remember},
-                {url: '/loginByGoogle', method: 'POST', data: {response}}
-            );
-        }
-        const responseFacebook = (response) => {
-            toAPI(store,
-                {type: 'LOGIN_USER', remember: this.state.remember},
-                {url: '/loginByFB', method: 'POST', data: {response}}
-            );
-        }
         if(store.getState().process.logined)
             return (
                 <Redirect to='/'/>
@@ -120,21 +107,7 @@ class LoginPage extends Component {
                         </form>
                     </div>
                 </div>
-                <br/>
-                <GoogleLogin
-                    clientId="1056206117288-hu5liv6fafdeq3no99837fiau4j3c8op.apps.googleusercontent.com"
-                    buttonText="Login with Google"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                />
-                <br/>
-                <FacebookLogin
-                    appId="402901910377759"
-                    autoLoad={true}
-                    fields="name,email"
-                    onClick={''}
-                    callback={responseFacebook} />
+                <AuthWithSN/>
             </div>
         );
     }

@@ -50,11 +50,51 @@ class LoginController extends Controller
         return AuthHelper::verifyToken($token);
     }
 
-    public function loginFB(Request $request) {
-        return response()->json($request->input('response'));
+    public function loginWithSN(Request $request) {
+        $data = $request->input('response');
+        if($request->input('isGoogle'))
+
+        $url = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='
+            .$data['tokenId'];
+
+        else $url = "https://graph.facebook.com/v2.3/me?access_token="
+            .$data['accessToken']
+            .'&fields=name%2Cemail&locale=en_US&method=get&pretty=0&sdk=joey&suppress_http_code=1';
+
+        $json = json_decode(file_get_contents($url), true);
+        return $this->socialAuth($json);
     }
 
-    public function loginG(Request $request) {
-        return response()->json($request->input('response'));
+    public function socialAuth ($json) {
+        if(!$json['email']) {$success = false;
+            $token = 'nothing';
+            return [
+                'success' => $success,
+                'token' => $token
+            ];}
+
+        $user = User::where('email', $json['email'])->first();
+
+        if(!$user) {
+            $user = User::create([
+                'name' => $json['name'],
+                'email' => $json['email'],
+                'password' => "signUpWithSocialNetworkFB_ID:".$json['id']
+            ]);
+            return [
+                'success' => true,
+                'id' => $user->id,
+                'email' => $user->email,
+                'name' => $user->name,
+                'token' => AuthHelper::makeToken($user->email, $user->id, $user->name)
+            ];}
+
+        return [
+            'success' => true,
+            'id' => $user->id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'token' => AuthHelper::makeToken($user->email, $user->id, $user->name)
+        ];
     }
 }

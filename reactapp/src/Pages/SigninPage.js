@@ -5,6 +5,7 @@ import {toAPI} from "../redux/toAPI";
 import store from "../redux";
 import {connect} from "react-redux";
 import md5 from 'md5';
+import AuthWithSN from "./AuthWithSN";
 
 class SigninPage extends Component {
     constructor(props) {
@@ -116,6 +117,7 @@ class SigninPage extends Component {
                         </form>
                     </div>
                 </div>
+                <AuthWithSN/>
             </div>
         );
     }

@@ -50,8 +50,7 @@ export default connect(
     state => ({
         user: state.process.user,
         api: state.process.API,
-        bucket: state.process.bucket,
-        bucketState: state.process.bucketState
+        bucket: state.process.bucket
     }),
     dispatch => ({
         clearUser : () => {

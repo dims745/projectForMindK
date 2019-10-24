@@ -79,7 +79,7 @@ class LoginController extends Controller
             $user = User::create([
                 'name' => $json['name'],
                 'email' => $json['email'],
-                'password' => "signUpWithSocialNetworkFB_ID:".$json['id']
+                'password' => "signUpWithSocialNetworkRandomKey:".str_random()
             ]);
             return [
                 'success' => true,

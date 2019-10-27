@@ -12,8 +12,8 @@ class OrderController extends Controller
     public function addOrder(Request $req) {
         $token = $req->input('token');
         $s = AuthHelper::verifyToken($token);
-        if(gettype($s)!='array')return response()->json('error of autorization');
-        if(!$s['success'])return response()->json('error of autorization');
+        if(gettype($s)!='array')return response()->json('error of authorization');
+        if(!$s['success'])return response()->json('error of authorization');
         $order = new Order();
         $order->fill([
             "userId" => $s['id'],

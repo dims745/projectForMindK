@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {toAPI} from "../redux/toAPI";
-import store from "../redux";
+import { makeOrder } from "../redux/actions";
 
 class Order extends Component {
     onClick () {
-        toAPI(
-            store,
-            {type: "MAKE_ORDER"},
-            {
-                url: '/order',
-                method: 'POST',
-                data: {
-                    bucket: Object.assign({},this.props.bucket),
-                    address: this.refs.address.value,
-                    token: this.props.user.token
-                }
-            }
+        this.props.makeOrder(
+            Object.assign({},this.props.bucket),
+            this.refs.address.value,
+            this.props.user.token
         );
     }
     render() {
@@ -48,5 +39,10 @@ export default connect(
         user: state.process.user,
         bucket: state.process.bucket,
         order: state.process.orderSuccess
+    }),
+    dispatch => ({
+        makeOrder: (bucket, address, token)=> {
+            dispatch(makeOrder(bucket, address, token));
+        }
     })
 )(Order);

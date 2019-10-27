@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Category;
-use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
 
@@ -34,14 +32,26 @@ class productController extends Controller
         $product->save();
     }
 
-    public function getProductOfCategory($category ,Request $req) {
-        $categoryId = Category::where('name', $category)->first()->id;
-        $products = Product::where('categoryId', $categoryId)->get();
-        return response()->json($products);
-    }
-
-    public function getAllProduct() {
-        $products = Product::all();
-        return response()->json($products);
+    public function getProduct(Request $req) {
+        if($req->input('searchKey')) {
+            return Product::where(
+                'name',
+                'ilike',
+                '%'.$req->input('searchKey').'%'
+            )->paginate(20);
+        }
+        if($req->input('category')) {
+            return Product::where(
+                'categoryId',
+                $req->input('category')
+            )->paginate(20);
+        }
+        if($req->input('items')) {
+            return Product::whereIn(
+                'id',
+                explode(',', $req->input('items'))
+            )->get();
+        }
+        return Product::paginate(20);
     }
 }

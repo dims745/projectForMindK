@@ -23,8 +23,9 @@ if(sessionStorage.bucket)
 else store.dispatch({type: "SET_BUCKET", bucket: {}});
 
 toAPI(store, {type: "GET_CATEGORY"}, {url : '/categories', method: 'GET'});
+
 toAPI(store, {type: "GET_POP_ITEMS"}, {url : '/products/popular', method: 'GET'});
-toAPI(store, {type: "GET_ITEMS"}, {url : '/products', method: 'GET'});
+
 setTimeout(()=>{console.log(store.getState())},10000);
 
 ReactDOM.render(

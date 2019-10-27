@@ -35,6 +35,7 @@ export function addToBucket(state, action) {
     if(bucket[action.id]){
         bucket[action.id] += action.count;
         if(bucket[action.id] <= 0) bucket.splice(action.id, 1);
+        if(Object.keys(bucket).length === 0) bucket = [];
         sessionStorage.setItem('bucket', JSON.stringify({...bucket}));
         return {...state, bucket};
     }

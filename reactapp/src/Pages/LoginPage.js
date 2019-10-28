@@ -117,5 +117,9 @@ export default connect(
     state => ({
         logined: state.process
     }),
-    dispatch => ({})
+    dispatch => ({
+        login: () => {
+
+        }
+    })
 )(LoginPage);

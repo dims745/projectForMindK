@@ -15,30 +15,23 @@ class Main extends Component {
         return (
             <div>
                 <Switch>
-                    <Route path={'/login'}>
-                        <LoginPage />
-                    </Route>
-                    <Route path={'/signin'}>
-                        <SigninPage />
-                    </Route>
-                    <Route path={'/bucket'}>
-                        <Bucket />
-                    </Route>
-                    <Route path={'/item'}>
-                        <ItemPage />
-                    </Route>
-                    <Route path={'/category'}>
-                        <CategoryView />
-                    </Route>
-                    <Route path={'/search'}>
-                        <SearchPage/>
-                    </Route>
-                    <Route path={'/order'}>
-                        <Order/>
-                    </Route>
-                    <Route path={'/'}>
-                        <StartPage />
-                    </Route>
+
+                    <Route path={'/login'} component={LoginPage}/>
+
+                    <Route path={'/signin'} component={SigninPage}/>
+
+                    <Route path={'/bucket'} component={Bucket}/>
+
+                    <Route path={'/item'} component={ItemPage}/>
+
+                    <Route path={'/category'} component={CategoryView}/>
+
+                    <Route path={'/search'} component={SearchPage}/>
+
+                    <Route path={'/order'} component={Order}/>
+
+                    <Route path={'/'} component={StartPage}/>
+
                 </Switch>
             </div>
         );

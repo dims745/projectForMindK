@@ -18,7 +18,7 @@ class StartPage extends Component {
                             this.props.categories.map(
                                 category => (
                                     <li key={category.name}>
-                                        <Link key={category.name} to={'/category/' + category.name}>{category.name}</Link>
+                                        <Link key={category.name} to={'/category?category=' + category.id}>{category.name}</Link>
                                     </li>)
                             )
                             : false

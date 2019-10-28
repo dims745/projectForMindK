@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import  '../styles/Main.css';
 import Item from "./Item";
 import {Link} from "react-router-dom";
-import {getBucketItems} from "../redux/actions";
+import { getItems } from "../redux/actions";
 
 class Bucket extends Component {
     onClick (t) {
@@ -20,7 +20,7 @@ class Bucket extends Component {
                 </div>
             );
 
-        if(!this.props.items  || !this.props.user) {
+        if(!this.props.items  || !this.props.user || !this.props.items.length) {
             this.props.getBucketItems(this.props.bucket);
             return (
                 <div>
@@ -111,7 +111,7 @@ export default connect(
             dispatch({type: "ADD_TO_BUCKET", id, count: -count});
         },
         getBucketItems: (bucket)=> {
-            dispatch(getBucketItems(bucket));
+            dispatch(getItems(bucket));
         }
     })
 )(Bucket);

@@ -3,19 +3,22 @@ import './styles/Header.css';
 import { Link, Redirect } from "react-router-dom";
 import UserBox from "./Pages/UserBox";
 import { connect } from 'react-redux';
+import {getFromSearch} from "./redux/actions";
 
 class Header extends Component {
     onClick(event) {
         if(event) if(event.keyCode !== 13) return false;
-        this.props.before(true, this.refs.search.value);
+        this.props.getItems(this.refs.search.value, 1);
+        this.props.redirect(true, this.refs.search.value);
     }
     render() {
-        if(this.props.search && this.props.search.is) {
-            setTimeout(()=>this.props.before(false, undefined), 0);
+        if(this.props.searchRedirect && this.props.searchRedirect.is) {
+            this.props.redirect(false, this.refs.search.value);
             return (
-                <Redirect to={'/search?key=' + this.props.search.string}/>
+                <Redirect to={'/search?searchKey=' + this.props.searchRedirect.key}/>
             );
         }
+
         return (
             <div>
                 <div className='logo'>
@@ -24,11 +27,17 @@ class Header extends Component {
                 <div className='menus'>
                     <div className='navigateLinks'>
                         {
-                            ['Main Page', 'login', 'signIn', 'bucket', 'something']
-                                .map((item) =>
-                                    <div key={item} className={'buttonLink'}>
-                                        <Link to={'/' + item}>
-                                            <button className={'navigateLink'}>{item}</button>
+                            [
+                                {name: "Main Page", url: ""},
+                                {name: "Login", url: "login"},
+                                {name: "Sign In", url: "signin"},
+                                {name: "Bucket", url: "bucket"},
+                                {name: "All products", url: "search?searchKey=&page=1"}
+                            ]
+                                .map((item, index) =>
+                                    <div key={index} className={'buttonLink'}>
+                                        <Link to={'/' + item.url}>
+                                            <button className={'navigateLink'}>{item.name}</button>
                                         </Link>
                                     </div>
                                 )
@@ -50,11 +59,14 @@ class Header extends Component {
 
 export default connect(
     state => ({
-        search: state.process.search
+        searchRedirect: state.process.searchRedirect
     }),
     dispatch => ({
-        before(is, string) {
-            dispatch({type: "SEARCH", search: {is, string}});
+        getItems: (key, page) => {
+            dispatch(getFromSearch(key, page));
+        },
+        redirect: (is, key) => {
+            dispatch({type: "SEARCH", searchRedirect: {is, key}});
         }
     })
 )(

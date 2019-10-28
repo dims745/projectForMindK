@@ -1,41 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Item from "./Item";
 import '../styles/Main.css';
-import {Link} from "react-router-dom";
+import Paginate from "./Paginate";
+import { parseUrl } from 'query-string';
+import { getFromCategory } from "../redux/actions";
 
 class CategoryView extends Component {
-    onClick () {
-        this.props.onClick();
+
+    componentDidMount() {
+        let query = parseUrl(document.location.toString()).query;
+        this.props.getItems(query.category, query.page ? query.page : 1);
     }
+
     render() {
-        let page = 1;
-        let tmp = document.location.href.split('?');
-        if(tmp.length===2){page = tmp[1].split('=')[1];}
-        let n = page * 20;
-        let category = tmp[0].split('/');
-        category = category[category.length-1];
-        if(!(this.props.category && this.props.items))return false;
-        category = this.props.category.find(item => item.name === category);
-        let items = this.props.items.filter(item => item.categoryId === category.id);
-        let pages = [];pages[0] = 1;
-        for (let i=1;i<items.length/20;i++)pages[i]=i+1;
-        items = items.slice(n-20, n);
+        let query = parseUrl(document.location.toString()).query;
+
+        if(!this.props.category || !this.props.items || this.props.items.length) {
+            this.props.getItems(query.category, query.page ? query.page : 1);
+            return (
+                <div>
+                    Loading...
+                </div>
+            );
+        }
+
+        let category = this.props.category.find(it => query.category === it.id.toString());
+
         return (
             <div>
                 <h3>Products of category {category.name}</h3>
                 <p>{category.description}</p>
-                <div className='Items'>
-                    {
-                        items.map(item => <Item item={item}/>)
-                    }
-                    <br/>
-                </div>
-                <div className='Pagination'>
-                    {pages.map(item => <Link to={'/category/' + category.name + '?page=' + item}>
-                        <button onClick={()=>this.onClick()} className={'PageButton'}>{item}</button>
-                    </Link>)}
-                </div>
+                <Paginate items={this.props.items}/>
             </div>
         );
     }
@@ -45,12 +40,11 @@ export default connect(
     state => ({
         items: state.process.items,
         category: state.process.categories,
-        api: state.process.API,
-        pag: state.process.pagination
+        api: state.process.API
     }),
     dispatch => ({
-        onClick() {
-            dispatch({type: "PAGINATION"});
+        getItems: (category, page) => {
+            dispatch(getFromCategory(category, page));
         }
     })
 )(CategoryView);

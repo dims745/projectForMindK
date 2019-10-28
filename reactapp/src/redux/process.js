@@ -11,9 +11,10 @@ const initState = {
 
 export default function process (state = initState, action) {
     switch (action.type) {
+        case "CLEAR_ITEMS": return {...state, items: []};
         case "MAKE_ORDER": return {...state, orderSuccess: action.result};
-        case "PAGINATION": return {...state, pagination: !state.pagination};
-        case "SEARCH": return {...state, search: action.search};
+        case "PAGINATION": console.log(action); return {...state, pagination: !state.pagination};
+        case "SEARCH": return {...state, searchRedirect: action.searchRedirect};
         case "GET_ITEMS": return {...state, items: action.result};
         case "ADD_TO_BUCKET": return addToBucket(state, action);
         case "SET_BUCKET": return setBucket(state, action);

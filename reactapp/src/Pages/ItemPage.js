@@ -1,15 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {Link} from "react-router-dom";
+import { getItems } from "../redux/actions";
 
 class ItemPage extends Component{
     onClick () {
         this.props.addToBucket(this.refs.count.name, +this.refs.count.value);
     }
-    render() {
-        if(!this.props.item) return false;
+
+    componentDidMount() {
         let item = document.location.href.split('/');
-        item = this.props.item[item[item.length-1]-1];
+        item = item[item.length-1];
+        let items = [];
+        items[item] = 1;
+        this.props.getItem(items);
+    }
+
+    render() {
+
+        let item = document.location.href.split('/');
+        item = item[item.length-1];
+
+        if(!this.props.item || !this.props.categories || !this.props.item.length) {
+            return (
+                <div>
+                    Loading... Please wait
+                </div>
+            );
+        }
+
+        item = this.props.item.find(it => it.id === +item);
+
+        if(!item) {
+            return (
+                <div>
+                    Loading... Please wait
+                </div>
+            );
+        }
+
         return (
             <div>
                 <img src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/' + item.id + '.jpg'}/>
@@ -19,7 +48,7 @@ class ItemPage extends Component{
                     Categories: {
                     this.props.categories.find(it => it.id === item.categoryId) ?
                     <Link to={
-                        '/category/' + this.props.categories.find(it => it.id === item.categoryId).name
+                        '/category?category=' + this.props.categories.find(it => it.id === item.categoryId).id
                     }>
                         {this.props.categories.find(it => it.id === item.categoryId).name}
                     </Link> : false
@@ -55,6 +84,9 @@ export default connect(
     dispatch => ({
         addToBucket(id, count) {
             dispatch({type: "ADD_TO_BUCKET", id, count: count});
+        },
+        getItem: (item)=> {
+            dispatch(getItems(item));
         }
     })
 )(ItemPage);

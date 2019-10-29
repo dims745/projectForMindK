@@ -101,3 +101,45 @@ export function getPopular() {
             .then(result => dispatch({type: "GET_POP_ITEMS", result}));
     }
 }
+
+export function loginUser(user, remember) {
+    return dispatch => {
+        fetch('http://localhost/api/login', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(result => dispatch({type: "LOGIN_USER", result, remember}));
+    }
+}
+
+export function signInUser(user, remember) {
+    return dispatch => {
+        fetch('http://localhost/api/signIn', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(result => dispatch({type: "LOGIN_USER", result, remember}));
+    }
+}
+
+export function AuthBySN(response, isGoogle) {
+    return dispatch => {
+        fetch('http://localhost/api/loginBySN', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({response, isGoogle})
+        })
+            .then(res => res.json())
+            .then(result => dispatch({type: "LOGIN_USER", result, remember: true}));
+    }
+}

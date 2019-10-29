@@ -1,23 +1,17 @@
 import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
-import { toAPI } from "../redux/toAPI";
-import store from "../redux";
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
+import { connect } from 'react-redux';
+import {AuthBySN} from "../redux/actions";
 
 class AuthWithSN extends Component {
     render() {
         const responseGoogle = (response) => {
-            toAPI(store,
-                {type: 'LOGIN_USER', remember: true},
-                {url: '/loginBySN', method: 'POST', data: {response, isGoogle: true}}
-            );
+            this.props.AuthSN(response, true);
         }
         const responseFacebook = (response) => {
-            toAPI(store,
-                {type: 'LOGIN_USER', remember: true},
-                {url: '/loginBySN', method: 'POST', data: {response, isGoogle: false}}
-            );
+            this.props.AuthSN(response, false);
         }
         return (
             <div className={'SNContainer'}>
@@ -42,4 +36,11 @@ class AuthWithSN extends Component {
     }
 }
 
-export default AuthWithSN;
+export default connect(
+    state => ({}),
+    dispatch => ({
+        AuthSN: (response, isGoogle) => {
+            dispatch(AuthBySN(response, isGoogle));
+        }
+    })
+)(AuthWithSN);

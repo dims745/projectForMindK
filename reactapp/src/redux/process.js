@@ -20,7 +20,6 @@ export default function process (state = initState, action) {
         case "SET_BUCKET": return setBucket(state, action);
         case "VERIFY_USER": return authCreate(state, action.result);
         case "LOGIN_USER": if(action.result.success)return addAuth(state, action.result, action.remember); else return state;
-        case "ADD_USER": if(action.result.success)return addAuth(state, action.result); else return state;
         case "GET_CATEGORY": return {...state, categories : action.result};
         case "GET_POP_ITEMS": return {...state, popularItems : action.result};
         case "DEL_AUTH": return { ...state, user: {}, logined: false};

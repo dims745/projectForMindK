@@ -32,12 +32,15 @@ class Header extends Component {
                                 {name: "Login", url: "login"},
                                 {name: "Sign In", url: "signin"},
                                 {name: "Bucket", url: "bucket"},
-                                {name: "All products", url: "search?searchKey=&page=1"}
+                                {name: "All products", url: "search?searchKey=&page=1", onclick: ()=>this.onClick()}
                             ]
                                 .map((item, index) =>
                                     <div key={index} className={'buttonLink'}>
                                         <Link to={'/' + item.url}>
-                                            <button className={'navigateLink'}>{item.name}</button>
+                                            <button
+                                                className={'navigateLink'}
+                                                onClick={item.onclick}
+                                            >{item.name}</button>
                                         </Link>
                                     </div>
                                 )

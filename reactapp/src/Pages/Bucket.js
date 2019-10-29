@@ -11,7 +11,7 @@ class Bucket extends Component {
     }
 
     render() {
-        if(!this.props.bucket)
+        if(!this.props.bucket || this.props.bucket.length<1)
             return (
                 <div>
                     <h2>

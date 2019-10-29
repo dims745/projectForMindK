@@ -1,48 +1,22 @@
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
 import {Link , Redirect} from "react-router-dom";
-import { toAPI } from "../redux/toAPI";
-import store from "../redux";
 import {connect} from "react-redux";
 import md5 from 'md5';
 import AuthWithSN from "./AuthWithSN";
+import {loginUser} from "../redux/actions";
 
 class LoginPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            remember: false,
-            email: '',
-            pass: '',
-            invalidData: ''
-        };
-
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
     onSubmit(event){
         event.preventDefault();
         let user = {
-            email : this.state.email,
-            pass : this.state.pass
+            email : this.refs.email.value,
+            pass : md5(this.refs.pass.value)
         };
-        user.pass = md5(user.pass);
-        toAPI(store,
-            {type: 'LOGIN_USER', remember: this.state.remember},
-            {url: '/login', method: 'POST', data: user}
-            );
+        this.props.login(user, this.refs.remember.checked);
     }
     render() {
-        if(store.getState().process.logined)
+        if(this.props.logined)
             return (
                 <Redirect to='/'/>
             )
@@ -50,7 +24,7 @@ class LoginPage extends Component {
             <div className='LoginPage'>
                 <div className='LoginForm'>
                     <div>
-                        <form onSubmit={this.onSubmit}>
+                        <form onSubmit={()=>this.onSubmit(event)}>
                             <table>
                                 <tbody>
                                 <tr>
@@ -65,7 +39,7 @@ class LoginPage extends Component {
                                         <label>Email</label>
                                     </td>
                                     <td>
-                                        <input name='email' value={this.state.email} onChange={this.handleInputChange}/>
+                                        <input ref={'email'}/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -73,22 +47,22 @@ class LoginPage extends Component {
                                         <label>password </label>
                                     </td>
                                     <td>
-                                        <input name='pass' type='password' value={this.state.pass} onChange={this.handleInputChange}/>
+                                        <input ref={'pass'} type='password'/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
+                                        <input type='checkbox' ref={'remember'}/>
                                         <label>   Remember?</label>
                                     </td>
 
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type='submit' value='submit' class='submit'/>
+                                        <input type='submit' value='submit' className='submit'/>
                                     </td>
                                     <td>
-                                        {this.state.invalidData}
+                                        {}
                                     </td>
                                 </tr>
                                 <tr>
@@ -115,11 +89,11 @@ class LoginPage extends Component {
 
 export default connect(
     state => ({
-        logined: state.process
+        logined: state.process.logined
     }),
     dispatch => ({
-        login: () => {
-
+        login: (user, remember) => {
+            dispatch(loginUser(user, remember));
         }
     })
 )(LoginPage);

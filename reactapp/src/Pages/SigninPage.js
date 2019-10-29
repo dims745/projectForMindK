@@ -1,47 +1,21 @@
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
 import { Link , Redirect } from "react-router-dom";
-import {toAPI} from "../redux/toAPI";
 import store from "../redux";
 import {connect} from "react-redux";
 import md5 from 'md5';
 import AuthWithSN from "./AuthWithSN";
+import { signInUser } from "../redux/actions";
 
 class SigninPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            remember: false,
-            name : '',
-            email: '',
-            pass: '',
-            invalidData: ''
-        };
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
     onSubmit(event){
         event.preventDefault();
         let user = {
-            name : this.state.name,
-            email : this.state.email,
-            password : this.state.password
+            name: this.refs.name.value,
+            email : this.refs.email.value,
+            password : md5(this.refs.pass.value)
         };
-        user.password = md5(user.password);
-        toAPI(store,
-            {type: 'ADD_USER', remember: this.state.remember},
-            {url: '/signIn', method: 'POST', data: user}
-            );
-        console.log(store.getState());
+        this.props.signIn(user, this.refs.remember.checked);
     }
     render() {
         if(store.getState().process.logined)
@@ -50,9 +24,9 @@ class SigninPage extends Component {
             );
         return (
             <div className='LoginPage'>
-                <div class='LoginForm'>
+                <div className='LoginForm'>
                     <div>
-                        <form onSubmit={this.onSubmit}>
+                        <form onSubmit={()=>this.onSubmit(event)}>
                             <table>
                                 <tbody>
                                 <tr>
@@ -67,7 +41,7 @@ class SigninPage extends Component {
                                         Name
                                     </td>
                                     <td>
-                                        <input name='name' value={this.state.name} onChange={this.handleInputChange}/>
+                                        <input ref={'name'}/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -75,7 +49,7 @@ class SigninPage extends Component {
                                         <label>Email</label>
                                     </td>
                                     <td>
-                                        <input name='email' value={this.state.email} onChange={this.handleInputChange}/>
+                                        <input ref={'email'} type={'email'}/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -83,22 +57,22 @@ class SigninPage extends Component {
                                         <label>password </label>
                                     </td>
                                     <td>
-                                        <input name='password' type='password' value={this.state.password} onChange={this.handleInputChange}/>
+                                        <input ref={'pass'} type='password'/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
+                                        <input type='checkbox' ref={'remember'}/>
                                         <label>   Remember to LogIn?</label>
                                     </td>
 
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type='submit' value='submit' class='submit'/>
+                                        <input type='submit' value='submit' className='submit'/>
                                     </td>
                                     <td>
-                                        {this.state.invalidData}
+                                        {}
                                     </td>
                                 </tr>
                                 <tr>
@@ -125,6 +99,11 @@ class SigninPage extends Component {
 
 export default connect(
     state => ({
-        logined: state.process
+        logined: state.process.logined
+    }),
+    dispatch => ({
+        signIn: (user, remember) => {
+            dispatch(signInUser(user, remember));
+        }
     })
 )(SigninPage);

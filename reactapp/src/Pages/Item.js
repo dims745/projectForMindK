@@ -12,7 +12,7 @@ class Item extends Component {
         return (
             <div className={'Item'}>
                 <Link to={'/item/' + this.props.item.id}>
-                    <img src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/' + this.props.item.id + '.jpg'}/>
+                    <img src={process.env.REACT_APP_IMAGE_HOST + this.props.item.id + '.jpg'}/>
                     <br/>
                     {this.props.item.name}
                 </Link>
@@ -24,7 +24,7 @@ class Item extends Component {
                 <img
                     onClick={this.onClick.bind(this)}
                     className={'ico'}
-                    src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/bucket.ico'}
+                    src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}
                 />
             </div>
         );
@@ -32,9 +32,7 @@ class Item extends Component {
 }
 
 export default connect(
-    state => ({
-        api: state.process.API
-    }),
+    state => ({}),
     dispatch => ({
         addToBucket(id) {
             dispatch({type: "ADD_TO_BUCKET", id, count: 1});

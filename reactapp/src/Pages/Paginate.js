@@ -32,17 +32,19 @@ class Paginate extends Component {
             <div>
                 <div className={'Items'}>
                     {
-                        this.props.items.data.map(item => <Item item={item}/>)
+                        this.props.items.data.map(item => <div key={item.id}><Item item={item}/></div>)
                     }
                 </div>
                 <div className={'Pagination'}>
                     {
                         pages.map((item, index)=>
-                            <Link to={item}>
-                                <button onClick={()=>this.onclick(index)}>
-                                    {index}
-                                </button>
-                            </Link>
+                            <div key={index}>
+                                <Link to={item}>
+                                    <button onClick={()=>this.onclick(index)}>
+                                        {index}
+                                    </button>
+                                </Link>
+                            </div>
                         )
                     }
                 </div>
@@ -52,9 +54,7 @@ class Paginate extends Component {
 }
 
 export default connect(
-    state => ({
-
-    }),
+    state => ({}),
     dispatch => ({
         getItemsCategory: (category, page) => {
             dispatch(getFromCategory(category, page));

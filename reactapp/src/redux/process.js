@@ -1,10 +1,6 @@
 import {authCreate, addAuth, addToBucket, setBucket} from './reducers';
 
 const initState = {
-    API : {
-        host : 'localhost',
-        port : 80
-    },
     logined: false,
     bucket: []
 };

@@ -39,8 +39,7 @@ class CategoryView extends Component {
 export default connect(
     state => ({
         items: state.process.items,
-        category: state.process.categories,
-        api: state.process.API
+        category: state.process.categories
     }),
     dispatch => ({
         getItems: (category, page) => {

@@ -17,7 +17,7 @@ class AuthWithSN extends Component {
             <div className={'SNContainer'}>
                 <br/>
                 <GoogleLogin
-                    clientId="1056206117288-hu5liv6fafdeq3no99837fiau4j3c8op.apps.googleusercontent.com"
+                    clientId = {process.env.REACT_APP_GOOGLE_ID}
                     buttonText="Login with Google"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
@@ -26,7 +26,7 @@ class AuthWithSN extends Component {
                 <br/>
                 <br/>
                 <FacebookLogin
-                    appId="402901910377759"
+                    appId = {process.env.REACT_APP_FACEBOOK_ID}
                     autoLoad={false}
                     fields="name,email"
                     onClick={''}

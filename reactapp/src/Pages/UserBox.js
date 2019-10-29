@@ -23,7 +23,7 @@ class UserBox extends Component {
                             this.props.bucket.reduce((sum, current) => sum + current)
                             : 0
                         }->
-                        <img className={'ico'} src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/bucket.ico'}/>
+                        <img className={'ico'} src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}/>
                     </Link>
                 </div>
                 <div>
@@ -49,7 +49,6 @@ class UserBox extends Component {
 export default connect(
     state => ({
         user: state.process.user,
-        api: state.process.API,
         bucket: state.process.bucket
     }),
     dispatch => ({

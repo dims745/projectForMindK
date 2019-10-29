@@ -41,7 +41,7 @@ class ItemPage extends Component{
 
         return (
             <div>
-                <img src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/' + item.id + '.jpg'}/>
+                <img src={process.env.REACT_APP_IMAGE_HOST + item.id + '.jpg'}/>
                 <br/>
                 <h3>{item.name}</h3>
                 <p>
@@ -68,7 +68,7 @@ class ItemPage extends Component{
                 <img
                     onClick={this.onClick.bind(this)}
                     className={'ico'}
-                    src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/bucket.ico'}
+                    src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}
                 />
             </div>
         );
@@ -78,7 +78,6 @@ class ItemPage extends Component{
 export default connect(
     state => ({
         item: state.process.items,
-        api: state.process.API,
         categories: state.process.categories
     }),
     dispatch => ({

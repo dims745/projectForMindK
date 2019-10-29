@@ -89,7 +89,7 @@ class Bucket extends Component {
                             <img
                                 onClick={()=>this.onClick(index)}
                                 className={'ico'}
-                                src={'http://' + this.props.api.host + ':' + this.props.api.port + '/images/bucket.ico'}
+                                src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}
                             />
                         </div>
                     )
@@ -103,8 +103,7 @@ export default connect(
     state => ({
         user: state.process.user,
         items: state.process.items,
-        bucket: state.process.bucket,
-        api: state.process.API
+        bucket: state.process.bucket
     }),
     dispatch => ({
         addToBucket(id, count) {

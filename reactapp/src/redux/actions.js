@@ -1,10 +1,13 @@
+const host = process.env.REACT_APP_API_HOST;
+const headers = {
+    'Content-Type': 'application/json'
+};
+
 export function makeOrder(bucket, address, token) {
     return dispatch => {
-        fetch('http://localhost/api/order',{
+        fetch(host + 'order',{
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers,
             body: JSON.stringify({
                 bucket,
                 address,
@@ -19,11 +22,9 @@ export function makeOrder(bucket, address, token) {
 export function getItems(items) {
     return dispatch => {
         if(Object.keys(items).join())
-        fetch('http://localhost/api/products?items=' + Object.keys(items).join(), {
+        fetch(host + 'products?items=' + Object.keys(items).join(), {
             method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers
         })
             .then(res => res.json())
             .then(result => dispatch({type: "GET_ITEMS", result}));
@@ -33,11 +34,9 @@ export function getItems(items) {
 
 export function getFromCategory(category, page) {
     return dispatch => {
-        fetch('http://localhost/api/products?category=' + category + '&page=' + page, {
+        fetch(host + 'products?category=' + category + '&page=' + page, {
             method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers
         })
             .then(res => res.json())
             .then(result => dispatch({type: "GET_ITEMS", result}));
@@ -46,11 +45,9 @@ export function getFromCategory(category, page) {
 
 export function getFromSearch(key, page) {
     return dispatch => {
-        fetch('http://localhost/api/products?searchKey=' + key + '&page=' + page, {
+        fetch(host + 'products?searchKey=' + key + '&page=' + page, {
             method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers
         })
             .then(res => res.json())
             .then(result => dispatch({type: "GET_ITEMS", result}));
@@ -64,11 +61,9 @@ export function verifyUser() {
             sessionStorage.getItem('token') ?
                 sessionStorage.getItem('token') :
                 false;
-        fetch('http://localhost/api/verify', {
+        fetch(host + 'verify', {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers,
             body: JSON.stringify({token})
         })
             .then(res => res.json())
@@ -78,11 +73,9 @@ export function verifyUser() {
 
 export function getCategory() {
     return dispatch => {
-        fetch('http://localhost/api/categories', {
+        fetch( host + 'categories', {
             method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers
         })
             .then(res => res.json())
             .then(result => dispatch({type: "GET_CATEGORY", result}));
@@ -91,11 +84,9 @@ export function getCategory() {
 
 export function getPopular() {
     return dispatch => {
-        fetch('http://localhost/api/products/popular', {
+        fetch(host + 'products/popular', {
             method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers
         })
             .then(res => res.json())
             .then(result => dispatch({type: "GET_POP_ITEMS", result}));
@@ -104,11 +95,9 @@ export function getPopular() {
 
 export function loginUser(user, remember) {
     return dispatch => {
-        fetch('http://localhost/api/login', {
+        fetch(host + 'login', {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers,
             body: JSON.stringify(user)
         })
             .then(res => res.json())
@@ -118,11 +107,9 @@ export function loginUser(user, remember) {
 
 export function signInUser(user, remember) {
     return dispatch => {
-        fetch('http://localhost/api/signIn', {
+        fetch(host + 'signIn', {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers,
             body: JSON.stringify(user)
         })
             .then(res => res.json())
@@ -132,11 +119,9 @@ export function signInUser(user, remember) {
 
 export function AuthBySN(response, isGoogle) {
     return dispatch => {
-        fetch('http://localhost/api/loginBySN', {
+        fetch(host + 'loginBySN', {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers,
             body: JSON.stringify({response, isGoogle})
         })
             .then(res => res.json())

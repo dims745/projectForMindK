@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import '../styles/Main.css';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import Item from "./Item";
+import Item from './Item';
 
 class StartPage extends Component {
+
     render() {
         return (
             <div className={'general2'}>

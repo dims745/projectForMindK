@@ -1,9 +1,10 @@
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 import '../styles/Header.css';
 
 class UserBox extends Component {
+
     onLogout() {
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
@@ -11,10 +12,12 @@ class UserBox extends Component {
     }
 
     render() {
+
         let name;
         if (this.props.user)
             name = this.props.user.name;
         else name = false;
+
         return (
             <div className='userContainer'>
                 <div>
@@ -23,7 +26,7 @@ class UserBox extends Component {
                             this.props.bucket.reduce((sum, current) => sum + current)
                             : 0
                         }->
-                        <img className={'ico'} src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}/>
+                        <img alt={'bucket'} className={'ico'} src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}/>
                     </Link>
                 </div>
                 <div>

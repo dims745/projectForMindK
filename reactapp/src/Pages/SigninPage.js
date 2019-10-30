@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
-import { Link , Redirect } from "react-router-dom";
-import store from "../redux";
-import {connect} from "react-redux";
+import { Link , Redirect } from 'react-router-dom';
+import store from '../redux';
+import { connect } from 'react-redux';
 import md5 from 'md5';
-import AuthWithSN from "./AuthWithSN";
-import { signInUser } from "../redux/actions";
+import AuthWithSN from './AuthWithSN';
+import { signInUser } from '../redux/actions';
 
 class SigninPage extends Component {
+
     onSubmit(event){
         event.preventDefault();
         let user = {
@@ -17,11 +18,14 @@ class SigninPage extends Component {
         };
         this.props.signIn(user, this.refs.remember.checked);
     }
+
     render() {
+
         if(store.getState().process.logined)
             return (
                 <Redirect to='/'/>
             );
+
         return (
             <div className='LoginPage'>
                 <div className='LoginForm'>
@@ -91,7 +95,9 @@ class SigninPage extends Component {
                         </form>
                     </div>
                 </div>
+
                 <AuthWithSN/>
+
             </div>
         );
     }

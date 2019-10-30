@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import './styles/Header.css';
-import { Link, Redirect } from "react-router-dom";
-import UserBox from "./Pages/UserBox";
+import { Link, Redirect } from 'react-router-dom';
+import UserBox from './Pages/UserBox';
 import { connect } from 'react-redux';
-import {getFromSearch} from "./redux/actions";
+import { getFromSearch } from './redux/actions';
 
 class Header extends Component {
+
     onClick(event) {
-        if(event) if(event.keyCode !== 13) return false;
+        if(event) if(event.keyCode !== 13)
+            return false;
         this.props.getItems(this.refs.search.value, 1);
         this.props.redirect(true, this.refs.search.value);
     }
+
     render() {
+
         if(this.props.searchRedirect && this.props.searchRedirect.is) {
             this.props.redirect(false, this.refs.search.value);
             return (
@@ -28,11 +32,11 @@ class Header extends Component {
                     <div className='navigateLinks'>
                         {
                             [
-                                {name: "Main Page", url: ""},
-                                {name: "Login", url: "login"},
-                                {name: "Sign In", url: "signin"},
-                                {name: "Bucket", url: "bucket"},
-                                {name: "All products", url: "search?searchKey=&page=1", onclick: ()=>this.onClick()}
+                                {name: 'Main Page', url: ''},
+                                {name: 'Login', url: 'login'},
+                                {name: 'Sign In', url: 'signin'},
+                                {name: 'Bucket', url: 'bucket'},
+                                {name: 'All products', url: 'search?searchKey=&page=1', onclick: ()=>this.onClick()}
                             ]
                                 .map((item, index) =>
                                     <div key={index} className={'buttonLink'}>
@@ -69,7 +73,7 @@ export default connect(
             dispatch(getFromSearch(key, page));
         },
         redirect: (is, key) => {
-            dispatch({type: "SEARCH", searchRedirect: {is, key}});
+            dispatch({type: 'SEARCH', searchRedirect: {is, key}});
         }
     })
 )(

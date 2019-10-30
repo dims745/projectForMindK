@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../styles/Main.css';
-import Paginate from "./Paginate";
+import Paginate from './Paginate';
 import { parseUrl } from 'query-string';
-import { getFromCategory } from "../redux/actions";
+import { getFromCategory } from '../redux/actions';
 
 class CategoryView extends Component {
 
@@ -13,6 +13,7 @@ class CategoryView extends Component {
     }
 
     render() {
+
         let query = parseUrl(document.location.toString()).query;
 
         if(!this.props.category || !this.props.items || this.props.items.length) {

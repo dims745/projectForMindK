@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from "react-router-dom";
-import { getItems } from "../redux/actions";
+import {Link} from 'react-router-dom';
+import { getItems } from '../redux/actions';
 
 class ItemPage extends Component{
+
     onClick () {
         this.props.addToBucket(this.refs.count.name, +this.refs.count.value);
     }
@@ -41,7 +42,7 @@ class ItemPage extends Component{
 
         return (
             <div>
-                <img src={process.env.REACT_APP_IMAGE_HOST + item.id + '.jpg'}/>
+                <img alt={''} src={process.env.REACT_APP_IMAGE_HOST + item.id + '.jpg'}/>
                 <br/>
                 <h3>{item.name}</h3>
                 <p>
@@ -66,6 +67,7 @@ class ItemPage extends Component{
                 <br/>
                 <input name={item.id} ref={'count'}/><label> Add to </label>
                 <img
+                    alt={'bucket'}
                     onClick={this.onClick.bind(this)}
                     className={'ico'}
                     src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}
@@ -82,7 +84,7 @@ export default connect(
     }),
     dispatch => ({
         addToBucket(id, count) {
-            dispatch({type: "ADD_TO_BUCKET", id, count: count});
+            dispatch({type: 'ADD_TO_BUCKET', id, count: count});
         },
         getItem: (item)=> {
             dispatch(getItems(item));

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { makeOrder } from "../redux/actions";
+import { makeOrder } from '../redux/actions';
 
 class Order extends Component {
+
     onClick () {
         this.props.makeOrder(
             Object.assign({},this.props.bucket),
@@ -10,6 +11,7 @@ class Order extends Component {
             this.props.user.token
         );
     }
+
     render() {
         return (
             <div>

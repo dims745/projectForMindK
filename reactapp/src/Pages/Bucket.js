@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import  '../styles/Main.css';
-import Item from "./Item";
-import {Link} from "react-router-dom";
-import { getItems } from "../redux/actions";
+import Item from './Item';
+import {Link} from 'react-router-dom';
+import { getItems } from '../redux/actions';
 
 class Bucket extends Component {
+
     onClick (t) {
         this.props.addToBucket(t, +this.refs[t].value);
     }
@@ -49,6 +50,7 @@ class Bucket extends Component {
         this.props.bucket.map((item, index) =>{
             bucket[index] = this.props.items.find(it => it.id === index);
             totalPrice += item * bucket[index].price;
+            return true;
         });
 
         return (
@@ -87,6 +89,7 @@ class Bucket extends Component {
                             <input ref={index}/>
                             <label> Del from </label>
                             <img
+                                alt={'bucket'}
                                 onClick={()=>this.onClick(index)}
                                 className={'ico'}
                                 src={process.env.REACT_APP_IMAGE_HOST + 'bucket.ico'}
@@ -107,7 +110,7 @@ export default connect(
     }),
     dispatch => ({
         addToBucket(id, count) {
-            dispatch({type: "ADD_TO_BUCKET", id, count: -count});
+            dispatch({type: 'ADD_TO_BUCKET', id, count: -count});
         },
         getBucketItems: (bucket)=> {
             dispatch(getItems(bucket));

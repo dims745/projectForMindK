@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import '../styles/Main.css';
-import Item from "./Item";
-import {parseUrl} from "query-string";
-import {Link} from "react-router-dom";
-import { connect } from "react-redux";
-import {getFromCategory, getFromSearch} from "../redux/actions";
+import Item from './Item';
+import { parseUrl } from 'query-string';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getFromCategory, getFromSearch } from '../redux/actions';
 
 class Paginate extends Component {
+
     onclick(page) {
         let query = parseUrl(document.location.toString()).query;
         if(query.category)
@@ -19,15 +20,17 @@ class Paginate extends Component {
         let pages = [];
         let url = parseUrl(document.location.toString());
         if(!url.query.page) url.query.page = '1';
+
         for(let i=1;i<=this.props.items.last_page;i++) {
             pages[i] = url.url.split('/')[url.url.split('/').length-1];
             let tmp = '';
             for(let key in url.query) {
                 if (key === 'page') tmp = '&page=' + i;
                 else pages[i] += '?' + key + '=' + url.query[key];
-                    }
+            }
             pages[i] += tmp;
         }
+
         return (
             <div>
                 <div className={'Items'}>

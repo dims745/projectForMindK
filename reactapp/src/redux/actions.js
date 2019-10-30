@@ -6,7 +6,7 @@ const headers = {
 export function makeOrder(bucket, address, token) {
     return dispatch => {
         fetch(host + 'order',{
-            method: "POST",
+            method: 'POST',
             headers,
             body: JSON.stringify({
                 bucket,
@@ -15,7 +15,7 @@ export function makeOrder(bucket, address, token) {
             })
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "MAKE_ORDER", result}));
+            .then(result => dispatch({type: 'MAKE_ORDER', result}));
     }
 };
 
@@ -23,34 +23,34 @@ export function getItems(items) {
     return dispatch => {
         if(Object.keys(items).join())
         fetch(host + 'products?items=' + Object.keys(items).join(), {
-            method: "GET",
+            method: 'GET',
             headers
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "GET_ITEMS", result}));
-        dispatch({type: "NOTHING"});
+            .then(result => dispatch({type: 'GET_ITEMS', result}));
+        dispatch({type: 'NOTHING'});
     }
 }
 
 export function getFromCategory(category, page) {
     return dispatch => {
         fetch(host + 'products?category=' + category + '&page=' + page, {
-            method: "GET",
+            method: 'GET',
             headers
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "GET_ITEMS", result}));
+            .then(result => dispatch({type: 'GET_ITEMS', result}));
     }
 }
 
 export function getFromSearch(key, page) {
     return dispatch => {
         fetch(host + 'products?searchKey=' + key + '&page=' + page, {
-            method: "GET",
+            method: 'GET',
             headers
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "GET_ITEMS", result}));
+            .then(result => dispatch({type: 'GET_ITEMS', result}));
     }
 }
 
@@ -62,69 +62,69 @@ export function verifyUser() {
                 sessionStorage.getItem('token') :
                 false;
         fetch(host + 'verify', {
-            method: "POST",
+            method: 'POST',
             headers,
             body: JSON.stringify({token})
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "VERIFY_USER", result}));
+            .then(result => dispatch({type: 'VERIFY_USER', result}));
     }
 }
 
 export function getCategory() {
     return dispatch => {
         fetch( host + 'categories', {
-            method: "GET",
+            method: 'GET',
             headers
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "GET_CATEGORY", result}));
+            .then(result => dispatch({type: 'GET_CATEGORY', result}));
     }
 }
 
 export function getPopular() {
     return dispatch => {
         fetch(host + 'products/popular', {
-            method: "GET",
+            method: 'GET',
             headers
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "GET_POP_ITEMS", result}));
+            .then(result => dispatch({type: 'GET_POP_ITEMS', result}));
     }
 }
 
 export function loginUser(user, remember) {
     return dispatch => {
         fetch(host + 'login', {
-            method: "POST",
+            method: 'POST',
             headers,
             body: JSON.stringify(user)
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "LOGIN_USER", result, remember}));
+            .then(result => dispatch({type: 'LOGIN_USER', result, remember}));
     }
 }
 
 export function signInUser(user, remember) {
     return dispatch => {
         fetch(host + 'signIn', {
-            method: "POST",
+            method: 'POST',
             headers,
             body: JSON.stringify(user)
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "LOGIN_USER", result, remember}));
+            .then(result => dispatch({type: 'LOGIN_USER', result, remember}));
     }
 }
 
 export function AuthBySN(response, isGoogle) {
     return dispatch => {
         fetch(host + 'loginBySN', {
-            method: "POST",
+            method: 'POST',
             headers,
             body: JSON.stringify({response, isGoogle})
         })
             .then(res => res.json())
-            .then(result => dispatch({type: "LOGIN_USER", result, remember: true}));
+            .then(result => dispatch({type: 'LOGIN_USER', result, remember: true}));
     }
 }

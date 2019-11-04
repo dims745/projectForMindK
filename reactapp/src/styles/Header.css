@@ -1,0 +1,57 @@
+.logo {
+    height: 20%;
+    min-height: 50px;
+    width: 100%;
+    background-color: darkslategrey;
+    color: burlywood;
+}
+.menus {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    height: 20%;
+    width: 100%;
+    min-height: 100px;
+}
+.buttonLink {
+    width: 19%;
+    height: 100%;
+    border: solid 1px darkgray;
+}
+.buttonLink:hover {
+    border: solid 3px darkcyan;
+}
+.navigateLinks {
+    display: flex;
+    width: 60%;
+    height: 100%;
+}
+button.navigateLink {
+    height: 100%;
+    width: 100%;
+}
+button {
+    border: none;
+    font-size: medium;
+}
+.search {
+    width: 15%;
+    height: 100%;
+}
+.userContainer {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    width: 25%;
+    height: 100%;
+}
+input{max-width: 90%;}
+img.ico {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+img {
+    max-height: 200px;
+    max-width: 200px;
+}

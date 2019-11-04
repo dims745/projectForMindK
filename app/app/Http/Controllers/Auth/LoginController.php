@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
+use App\AuthHelper;
 
 class LoginController extends Controller
 {
@@ -22,8 +23,9 @@ class LoginController extends Controller
             ->where('password', $pass)
             ->first();
         if($user) {
+
             $success = true;
-            $token = LoginController::makeToken($user->email, $user->id, $user->name);
+            $token = AuthHelper::makeToken($user->email, $user->id, $user->name);
             return [
                 'success' => $success,
                 'id' => $user->id,
@@ -45,41 +47,54 @@ class LoginController extends Controller
 
     public function verifyToken (Request $req) {
         $token = $req->input('token');
-        $splitToken = explode('.', $token);
-        if(!(json_decode(base64_decode($splitToken[0])) && json_decode(base64_decode($splitToken[1])))){
-            return response()->json(["success" => 'false']);
-        }
-        $checking = LoginController::buildSignature($splitToken[0], $splitToken[1]);
-        return response()->json([
-            "success" => !!(LoginController::base64url_encode($checking) == $splitToken[2]),
-            "id" => json_decode(base64_decode($splitToken[1]))->id,
-            "email" => json_decode(base64_decode($splitToken[1]))->email,
-            "name" => json_decode(base64_decode($splitToken[1]))->name
-        ]);
+        return AuthHelper::verifyToken($token);
     }
 
-    public static function makeToken($email, $id, $name) {
-        $headers = ['alg'=>'HS256','typ'=>'JWT'];
-        $headers_encoded = LoginController::base64url_encode(json_encode($headers));
+    public function loginWithSN(Request $request) {
+        $data = $request->input('response');
+        if($request->input('isGoogle'))
 
-        $payload = ['email'=>$email, 'id'=>$id, 'name'=>$name];
-        $payload_encoded = LoginController::base64url_encode(json_encode($payload));
+        $url = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='
+            .$data['tokenId'];
 
-        $signature_encoded = LoginController::base64url_encode(
-            LoginController::buildSignature($headers_encoded,$payload_encoded)
-        );
+        else $url = "https://graph.facebook.com/v2.3/me?access_token="
+            .$data['accessToken']
+            .'&fields=name%2Cemail&locale=en_US&method=get&pretty=0&sdk=joey&suppress_http_code=1';
 
-        $token = "$headers_encoded.$payload_encoded.$signature_encoded";
-        return $token;
+        $json = json_decode(file_get_contents($url), true);
+        return $this->socialAuth($json);
     }
 
-    public static function base64url_encode($data) {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-    }
+    public function socialAuth ($json) {
+        if(!$json['email']) {$success = false;
+            $token = 'nothing';
+            return [
+                'success' => $success,
+                'token' => $token
+            ];}
 
-    public static function buildSignature($header, $payload) {
-        $key = 'secret';
-        $signature = hash_hmac('SHA256',"$header.$payload",$key,true);
-        return $signature;
+        $user = User::where('email', $json['email'])->first();
+
+        if(!$user) {
+            $user = User::create([
+                'name' => $json['name'],
+                'email' => $json['email'],
+                'password' => "signUpWithSocialNetworkRandomKey:".str_random()
+            ]);
+            return [
+                'success' => true,
+                'id' => $user->id,
+                'email' => $user->email,
+                'name' => $user->name,
+                'token' => AuthHelper::makeToken($user->email, $user->id, $user->name)
+            ];}
+
+        return [
+            'success' => true,
+            'id' => $user->id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'token' => AuthHelper::makeToken($user->email, $user->id, $user->name)
+        ];
     }
 }

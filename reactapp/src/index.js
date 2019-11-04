@@ -2,20 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux';
-import thunk from "redux-thunk";
-import { toAPI } from "./redux/actions";
+import { getCategory, getPopular, verifyUser } from './redux/actions';
 
-toAPI(store, {type: "ADD_AUTH"}, {url : '/verify', data : {
-    token : localStorage.getItem('token') ?
-        localStorage.getItem('token') :
-        sessionStorage.getItem('token') ?
-            sessionStorage.getItem('token') :
-            false
-    }
-});
+store.dispatch(verifyUser());
+
+store.dispatch(getCategory());
+
+store.dispatch(getPopular());
+
+if(sessionStorage.bucket)
+    store.dispatch({
+        type: 'SET_BUCKET',
+        bucket: JSON.parse(sessionStorage.getItem('bucket'))
+    });
+else
+    store.dispatch({
+        type: 'SET_BUCKET', bucket: {}
+    });
 
 ReactDOM.render(
     <Provider store={store}>

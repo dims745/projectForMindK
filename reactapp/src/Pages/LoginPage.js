@@ -1,116 +1,93 @@
 import React, { Component } from 'react';
 import '../styles/LoginPage.css';
-import {Link , Redirect} from "react-router-dom";
-import { toAPI } from "../redux/actions";
-import store from "../redux";
-import {connect} from "react-redux";
+import { Link , Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import md5 from 'md5';
+import AuthWithSN from './AuthWithSN';
+import { loginUser } from '../redux/actions';
 
 class LoginPage extends Component {
 
-    render() {
-        return (
-            <div class='LoginPage'>
-                <LoginForm />
-            </div>
-        );
-    }
-}
-
-class LoginForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            remember: false,
-            email: '',
-            pass: '',
-            invalidData: ''
-        };
-
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
     onSubmit(event){
         event.preventDefault();
         let user = {
-            email : this.state.email,
-            pass : this.state.pass
-        }
-        toAPI(store, {type: 'ADD_USER', remember: this.state.remember}, {url: '/login', data: user});
-        console.log(store.getState());
+            email : this.refs.email.value,
+            pass : md5(this.refs.pass.value)
+        };
+        this.props.login(user, this.refs.remember.checked);
     }
+
     render() {
-        if(store.getState().process.logined)
+
+        if(this.props.logined)
             return (
                 <Redirect to='/'/>
-            )
-        return (
-            <div class='LoginForm'>
-                <div>
-                    <form onSubmit={this.onSubmit}>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <h3>
-                                        Log In
-                                    </h3>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Email</label>
-                                </td>
-                                <td>
-                                    <input name='email' value={this.state.email} onChange={this.handleInputChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>password </label>
-                                </td>
-                                <td>
-                                    <input name='pass' type='password' value={this.state.pass} onChange={this.handleInputChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='checkbox' name='remember' onChange={this.handleInputChange}/>
-                                    <label>   Remember?</label>
-                                </td>
+            );
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type='submit' value='submit' class='submit'/>
-                                </td>
-                                <td>
-                                    {this.state.invalidData}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    No have account?
-                                </td>
-                                <td>
-                                    <Link to='/signin'>
-                                        SignIn
-                                    </Link>
-                                </td>
-                            </tr>
-                            <tr><td></td></tr>
-                            </tbody>
-                        </table>
-                    </form>
+        return (
+            <div className='LoginPage'>
+                <div className='LoginForm'>
+                    <div>
+                        <form onSubmit={()=>this.onSubmit(event)}>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <h3>
+                                            Log In
+                                        </h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Email</label>
+                                    </td>
+                                    <td>
+                                        <input ref={'email'}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>password </label>
+                                    </td>
+                                    <td>
+                                        <input ref={'pass'} type='password'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type='checkbox' ref={'remember'}/>
+                                        <label>   Remember?</label>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type='submit' value='submit' className='submit'/>
+                                    </td>
+                                    <td>
+                                        {}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        No have account?
+                                    </td>
+                                    <td>
+                                        <Link to='/signin'>
+                                            SignIn
+                                        </Link>
+                                    </td>
+                                </tr>
+                                <tr><td></td></tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
+
+                <AuthWithSN/>
+
             </div>
         );
     }
@@ -118,7 +95,11 @@ class LoginForm extends Component {
 
 export default connect(
     state => ({
-        logined: state.process
+        logined: state.process.logined
     }),
-    dispatch => ({})
+    dispatch => ({
+        login: (user, remember) => {
+            dispatch(loginUser(user, remember));
+        }
+    })
 )(LoginPage);

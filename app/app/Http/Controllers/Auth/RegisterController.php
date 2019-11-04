@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\AuthHelper;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -26,7 +27,10 @@ class RegisterController extends Controller
         $user = $this->create($req->all());
         return response()->json([
             'success' => true,
-            'token' => LoginController::makeToken($user->email, $user->id, $user->name)
+            'id' => $user->id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'token' => AuthHelper::makeToken($user->email, $user->id, $user->name)
         ]);
     }
 

@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 import './styles/Header.css';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from 'react-router-dom';
+import UserBox from './Pages/UserBox';
 import { connect } from 'react-redux';
+import { getFromSearch } from './redux/actions';
 
 class Header extends Component {
-    onLogout() {
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
-        this.props.clearUser()
+
+    onClick(event) {
+        if(event) if(event.keyCode !== 13)
+            return false;
+        this.props.getItems(this.refs.search.value, 1);
+        this.props.redirect(true, this.refs.search.value);
     }
+
     render() {
-        console.log(this.props);
-        let name;
-        if (this.props.authState.user)
-            name = this.props.authState.user.name;
-        else name = false;
+
+        if(this.props.searchRedirect && this.props.searchRedirect.is) {
+            this.props.redirect(false, this.refs.search.value);
+            return (
+                <Redirect to={'/search?searchKey=' + this.props.searchRedirect.key}/>
+            );
+        }
+
         return (
             <div>
                 <div className='logo'>
@@ -23,54 +31,34 @@ class Header extends Component {
                 <div className='menus'>
                     <div className='navigateLinks'>
                         {
-                            ['Main Page', 'login', 'signIn', 'bucket', 'something']
-                                .map((item) => <ButtonLink name={item}/>)
-                        }
-                    </div>
-                    <div className='search'>
-                        <input/>
-                        <br/>
-                        <input type='checkbox'/>
-                        <label>Something that...</label>
-                    </div>
-                    <div className='userContainer'>
-                        <div>
-                            <Link to='/bucket'>
-                                <img src='/src/res/bucket.ico'/>
-                            </Link>
-                        </div>
-                        <div>
-                            {
-                                name ? (
-                                    <div>
-                                        {name}
-                                        <button onClick={this.onLogout.bind(this)}>Logout</button>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <Link to='login'>
-                                            <button id='isLogin'>Login</button>
+                            [
+                                {name: 'Main Page', url: ''},
+                                {name: 'Login', url: 'login'},
+                                {name: 'Sign In', url: 'signin'},
+                                {name: 'Bucket', url: 'bucket'},
+                                {name: 'All products', url: 'search?searchKey=&page=1', onclick: ()=>this.onClick()}
+                            ]
+                                .map((item, index) =>
+                                    <div key={index} className={'buttonLink'}>
+                                        <Link to={'/' + item.url}>
+                                            <button
+                                                className={'navigateLink'}
+                                                onClick={item.onclick}
+                                            >{item.name}</button>
                                         </Link>
                                     </div>
                                 )
-
-                            }
-                        </div>
+                        }
                     </div>
+                    <div className='search'>
+                        <input onKeyPress={()=>this.onClick(event)} ref={'search'}/>
+                        <br/><br/>
+                        <button onClick={()=>this.onClick()}>
+                            Search
+                        </button>
+                    </div>
+                    <UserBox/>
                 </div>
-            </div>
-        );
-    }
-}
-
-
-class ButtonLink extends Component {
-    render() {
-        return (
-            <div class='buttonLink'>
-                <Link to={this.props.name}>
-                    <button>{this.props.name}</button>
-                </Link>
             </div>
         );
     }
@@ -78,11 +66,16 @@ class ButtonLink extends Component {
 
 export default connect(
     state => ({
-        authState: state.process
+        searchRedirect: state.process.searchRedirect
     }),
     dispatch => ({
-        clearUser : () => {
-            dispatch({type: 'DEL_AUTH'});
+        getItems: (key, page) => {
+            dispatch(getFromSearch(key, page));
+        },
+        redirect: (is, key) => {
+            dispatch({type: 'SEARCH', searchRedirect: {is, key}});
         }
     })
-)(Header);
+)(
+    Header
+);
